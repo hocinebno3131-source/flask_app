@@ -48,7 +48,11 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 25px;
-            direction: rtl; /* عكس الأعمدة للغة العربية */
+            direction: rtl; /* للغة العربية */
+        }
+
+        table, th, td {
+            border: 1px solid #999; /* خطوط واضحة للجدول */
         }
 
         table td {
@@ -57,14 +61,14 @@
         }
 
         table td:first-child {
-            width: 60%; /* العمود الأول (القيمة) أكبر الآن */
-            color: #000;
+            width: 40%; /* العمود الأول الآن اسم الحقل */
+            font-weight: 600;
+            color: #333;
         }
 
         table td:last-child {
-            width: 40%; /* العمود الثاني (اسم الحقل) أصغر */
-            font-weight: 600;
-            color: #333;
+            width: 60%; /* العمود الثاني الآن القيم */
+            color: #000;
         }
 
         .buttons {
@@ -105,17 +109,17 @@
 
         /* تأثيرات hover */
         .btn-print:hover {
-            background: #222; /* أفتح قليلاً */
+            background: #222;
             transform: scale(1.05);
         }
 
         .btn-edit:hover {
-            background: #1565c0; /* أغمق قليلاً */
+            background: #1565c0;
             transform: scale(1.05);
         }
 
         .btn-exit:hover {
-            background: #111; /* أغمق قليلاً */
+            background: #111;
             transform: scale(1.05);
         }
 
@@ -133,36 +137,36 @@
 
         <table>
             <tr>
-                <td>{{ employee.CCP }}</td>
                 <td>رقم الحساب البريدي</td>
+                <td>{{ employee.CCP }}</td>
             </tr>
             <tr>
-                <td>{{ employee.NIN or '' }}</td>
                 <td>رقم الضمان الإجتماعي NIN</td>
+                <td>{{ employee.NIN or '' }}</td>
             </tr>
             <tr>
-                <td>{{ employee.last_name }}</td>
                 <td>اللقب</td>
+                <td>{{ employee.last_name }}</td>
             </tr>
             <tr>
-                <td>{{ employee.first_name }}</td>
                 <td>الاسم</td>
+                <td>{{ employee.first_name }}</td>
             </tr>
             <tr>
-                <td>{{ employee.birth_date }}</td>
                 <td>تاريخ الميلاد</td>
+                <td>{{ employee.birth_date }}</td>
             </tr>
             <tr>
-                <td>{{ employee.rank or '' }}</td>
                 <td>الرتبة</td>
+                <td>{{ employee.rank or '' }}</td>
             </tr>
             <tr>
-                <td>{{ employee.institution or '' }}</td>
                 <td>المؤسسة</td>
+                <td>{{ employee.institution or '' }}</td>
             </tr>
             <tr>
-                <td>{{ employee.TEL }}</td>
                 <td>رقم الهاتف</td>
+                <td>{{ employee.TEL }}</td>
             </tr>
         </table>
 
