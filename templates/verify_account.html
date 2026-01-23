@@ -119,6 +119,12 @@
             margin-bottom: 15px;
         }
 
+        /* ===== رسالة الخطأ ===== */
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+        }
+
         /* ===== النموذج ===== */
         input {
             width: 100%;
@@ -166,6 +172,12 @@
         <div class="title-bottom">مديرية التربية لولاية توقرت</div>
         <div class="platform">المنصة الرقمية</div>
 
+        <!-- رسالة الخطأ -->
+        {% if message %}
+            <div class="error-message">{{ message }}</div>
+        {% endif %}
+
+        <!-- نموذج إدخال رقم الحساب -->
         <form method="POST" action="/verify_account">
             <input type="text" name="ccp" placeholder="أدخل رقم الحساب البريدي بدون المفتاح" required>
             <button type="submit">تسجيل الدخول</button>
