@@ -82,12 +82,14 @@
             cursor: pointer;
             color: white;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .btn i {
             margin-left: 8px;
         }
 
+        /* ألوان الأزرار */
         .btn-print {
             background: #000;
         }
@@ -100,8 +102,20 @@
             background: #333;
         }
 
-        .btn:hover {
-            opacity: 0.85;
+        /* تأثيرات hover */
+        .btn-print:hover {
+            background: #222; /* أفتح قليلاً */
+            transform: scale(1.05);
+        }
+
+        .btn-edit:hover {
+            background: #1565c0; /* أغمق قليلاً */
+            transform: scale(1.05);
+        }
+
+        .btn-exit:hover {
+            background: #111; /* أغمق قليلاً */
+            transform: scale(1.05);
         }
 
     </style>
