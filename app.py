@@ -13,7 +13,6 @@ def admin_login():
     if request.method == 'POST':
         password = request.form['password']
         if password == "de@tggt":
-            # إذا كانت كلمة المرور صحيحة، انتقل إلى صفحة إدخال رقم الحساب
             return render_template('verify_account.html')
         else:
             message = "كلمة المرور غير صحيحة."
@@ -24,22 +23,16 @@ def admin_login():
 # -------------------------------
 @app.route('/verify_account', methods=['POST'])
 def verify_account():
-    ccp = request.form['ccp']  # تأكد من تطابق الاسم مع input في HTML
-
+    ccp = request.form['ccp']
     try:
-        # افتح CSV واضبط الفاصل و encoding
         with open('employees.csv', newline='', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f, delimiter=';')
             for row in reader:
                 if row['CCP'] == ccp:
-                    # إذا الرقم صحيح، انتقل إلى صفحة النجاح ومرر بيانات الموظف
                     return render_template('success.html', employee=row)
     except FileNotFoundError:
-        # إذا لم يجد الملف CSV
         message = "ملف الموظفين غير موجود على السيرفر."
         return render_template('verify_account.html', message=message)
-
-    # إذا الرقم غير موجود
     message = "رقم الحساب غير صحيح، حاول مرة أخرى."
     return render_template('verify_account.html', message=message)
 
@@ -55,10 +48,9 @@ def index():
 # -------------------------------
 @app.route('/edit')
 def edit_employee():
-    ccp = request.args.get('ccp')  # نأخذ CCP من الرابط
+    ccp = request.args.get('ccp')
     if not ccp:
         return "CCP غير موجود في الرابط", 400
-
     try:
         with open('employees.csv', newline='', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f, delimiter=';')
@@ -67,11 +59,10 @@ def edit_employee():
                     return render_template('edit_employee.html', employee=row)
     except FileNotFoundError:
         return "ملف الموظفين غير موجود على السيرفر.", 500
-
     return "الموظف غير موجود", 404
 
 # -------------------------------
-# تشغيل التطبيق مع دعم Railway أو محلي
+# تشغيل التطبيق
 # -------------------------------
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
