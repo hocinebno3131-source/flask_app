@@ -2,10 +2,88 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>الصفحة الرئيسية</title>
+    <title>المنصة الرقمية</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #1976d2; /* خلفية زرقاء */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .box {
+            background: white;
+            width: 380px;
+            height: 380px;
+            border-radius: 12px;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .icon {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin: 10px 0;
+            font-weight: bold;
+            color: black;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        button {
+            width: 95%;
+            padding: 12px;
+            background: #1e88e5;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1565c0;
+        }
+    </style>
 </head>
 <body>
-    <h1>مرحبا بك في تطبيق الموظفين</h1>
-    <a href="/admin">تسجيل الدخول للإدمن</a>
+
+    <div class="box">
+
+        <div class="icon">👤</div>
+
+        <h2>مرحبا بك عزيزي المدير</h2>
+
+        <div class="subtitle">
+            في المنصة الرقمية لمديرية التربية لولاية توقرت
+        </div>
+
+        <input type="password" placeholder="أدخل كلمة المرور للمتابعة">
+
+        <button>دخول</button>
+
+    </div>
+
 </body>
 </html>
