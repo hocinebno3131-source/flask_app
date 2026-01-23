@@ -14,43 +14,58 @@
             display: flex;
             justify-content: center;
             padding: 30px 0;
-            direction: rtl; /* اجعل كل شيء يبدأ من اليمين */
+            direction: rtl;
         }
 
         .form-box {
             background: white;
-            width: 700px;
+            width: 750px;
             padding: 25px 30px;
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
 
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
         h2 {
             background: #1565c0;
             color: white;
-            text-align: center;
             padding: 12px;
             border-radius: 6px;
             font-weight: 700;
-            margin-bottom: 20px;
         }
 
         h3 {
             color: #1565c0;
             font-weight: 600;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #1565c0;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 15px;
-            text-align: center;
         }
 
         .field {
-            margin-bottom: 15px;
+            width: 48%;
         }
 
         .field label {
             display: block;
             font-weight: 600;
             margin-bottom: 5px;
-            text-align: right; /* اجعل تسمية الحقل على اليمين */
+            text-align: right;
         }
 
         .field input {
@@ -59,7 +74,43 @@
             border-radius: 6px;
             border: 1px solid #999;
             font-size: 16px;
-            text-align: right; /* اجعل النص داخل الحقل يبدأ من اليمين */
+            text-align: right;
+        }
+
+        .single-field {
+            margin-bottom: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 14px 0;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            border: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-save {
+            background: #1e88e5;
+        }
+
+        .btn-cancel {
+            background: #757575;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
         }
 
     </style>
@@ -70,45 +121,84 @@
         <h2>استمارة تحديث بيانات الموظفين</h2>
         <h3>البيانات الشخصية للموظف</h3>
 
-        <div class="field">
-            <label>رقم الحساب البريدي</label>
-            <input type="text" value="{{ employee.CCP }}">
+        <!-- البيانات الشخصية -->
+        <div class="row">
+            <div class="field">
+                <label>رقم الحساب البريدي</label>
+                <input type="text" value="{{ employee.CCP }}">
+            </div>
+            <div class="field">
+                <label>رقم الضمان الاجتماعي NIN</label>
+                <input type="text" value="{{ employee.NIN or '' }}">
+            </div>
         </div>
 
-        <div class="field">
-            <label>رقم الضمان الإجتماعي NIN</label>
-            <input type="text" value="{{ employee.NIN or '' }}">
+        <div class="row">
+            <div class="field">
+                <label>اللقب</label>
+                <input type="text" value="{{ employee.last_name }}">
+            </div>
+            <div class="field">
+                <label>الاسم</label>
+                <input type="text" value="{{ employee.first_name }}">
+            </div>
         </div>
 
-        <div class="field">
-            <label>اللقب</label>
-            <input type="text" value="{{ employee.last_name }}">
+        <div class="row">
+            <div class="field">
+                <label>تاريخ الميلاد</label>
+                <input type="text" value="{{ employee.birth_date }}">
+            </div>
+            <div class="field">
+                <label>الوظيفة</label>
+                <input type="text" value="{{ employee.rank or '' }}">
+            </div>
         </div>
 
-        <div class="field">
-            <label>الاسم</label>
-            <input type="text" value="{{ employee.first_name }}">
+        <!-- البيانات المهنية -->
+        <div class="section-title">البيانات المهنية للموظف</div>
+
+        <div class="single-field">
+            <label>الطور</label>
+            <input type="text" value="">
         </div>
 
-        <div class="field">
-            <label>تاريخ الميلاد</label>
-            <input type="text" value="{{ employee.birth_date }}">
+        <div class="row">
+            <div class="field">
+                <label>الدائرة</label>
+                <input type="text" value="">
+            </div>
+            <div class="field">
+                <label>البلدية</label>
+                <input type="text" value="">
+            </div>
         </div>
 
-        <div class="field">
-            <label>الرتبة</label>
-            <input type="text" value="{{ employee.rank or '' }}">
+        <div class="single-field">
+            <label>مؤسسة العمل</label>
+            <input type="text" value="">
         </div>
 
-        <div class="field">
-            <label>المؤسسة</label>
-            <input type="text" value="{{ employee.institution or '' }}">
+        <!-- معلومات الاتصال والهوية -->
+        <div class="section-title">معلومات الاتصال والهوية</div>
+
+        <div class="row">
+            <div class="field">
+                <label>رقم الهاتف</label>
+                <input type="text" value="{{ employee.TEL }}">
+            </div>
+            <div class="field">
+                <label>رقم التعريف الوطني</label>
+                <input type="text" value="">
+            </div>
         </div>
 
-        <div class="field">
-            <label>رقم الهاتف</label>
-            <input type="text" value="{{ employee.TEL }}">
+        <!-- الأزرار -->
+        <div class="buttons">
+            <button class="btn btn-save">حفظ وتأكيد المعلومات</button>
+            <button class="btn btn-cancel">إلغاء / خروج</button>
         </div>
+
     </div>
 
 </body>
