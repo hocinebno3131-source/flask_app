@@ -27,77 +27,6 @@
             box-shadow: 0 0 25px rgba(0,0,0,0.25);
         }
 
-        h2 {
-            margin: 5px 0;
-            font-size: 22px;
-            color: #333;
-        }
-
-        .subtitle {
-            font-size: 17px;
-            margin-bottom: 15px;
-        }
-
-        /* ===== الشعار الجديد ===== */
-        .emblem {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            margin: 20px auto;
-        }
-
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: 0.4s ease;
-        }
-
-        .ring-blue {
-            width: 160px;
-            height: 160px;
-            border: 4px dashed #1976d2;
-        }
-
-        .ring-green {
-            width: 125px;
-            height: 125px;
-            border: 4px solid #2e7d32;
-        }
-
-        .ring-red {
-            width: 90px;
-            height: 90px;
-            border: 4px solid #c62828;
-        }
-
-        .center-circle {
-            width: 55px;
-            height: 55px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 8px rgba(0,0,0,0.2);
-        }
-
-        .emblem:hover .ring-blue {
-            transform: translate(-50%, -50%) rotate(25deg) scale(1.05);
-        }
-
-        .emblem:hover .ring-green {
-            transform: translate(-50%, -50%) rotate(-20deg) scale(1.05);
-        }
-
-        .emblem:hover .ring-red {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        /* ===== النصوص ===== */
         .title-top {
             font-weight: 700;
             font-size: 18px;
@@ -123,6 +52,19 @@
         .error-message {
             color: red;
             margin-bottom: 15px;
+        }
+
+        /* ===== الشعار (logo.png) ===== */
+        .logo {
+            width: 130px;
+            margin: 20px auto;
+            display: block;
+            filter: drop-shadow(0 5px 6px rgba(0,0,0,0.25));
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.08);
         }
 
         /* ===== النموذج ===== */
@@ -162,12 +104,7 @@
         <div class="title-middle">وزارة التربية الوطنية</div>
 
         <!-- الشعار -->
-        <div class="emblem">
-            <div class="ring ring-blue"></div>
-            <div class="ring ring-green"></div>
-            <div class="ring ring-red"></div>
-            <div class="center-circle"></div>
-        </div>
+        <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
 
         <div class="title-bottom">مديرية التربية لولاية توقرت</div>
         <div class="platform">المنصة الرقمية</div>
