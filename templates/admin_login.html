@@ -2,18 +2,112 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>تسجيل الدخول للإدمن</title>
+    <title>تسجيل دخول الإدمن</title>
+
+    <!-- خط عربي احترافي -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #1976d2; /* خلفية زرقاء */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .box {
+            background: white;
+            width: 380px;
+            height: 380px;
+            border-radius: 12px;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .icon {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin: 10px 0;
+            font-weight: 700;
+            color: black;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            font-size: 17px;
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center; /* توسيط النص */
+        }
+
+        button {
+            width: 95%;
+            padding: 12px;
+            background: #1e88e5;
+            border: none;
+            color: white;
+            font-size: 17px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        button:hover {
+            background: #1565c0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h2>أدخل كلمة المرور للإدمن</h2>
 
-    {% if message %}
-        <p style="color:red;">{{ message }}</p>
-    {% endif %}
+    <div class="box">
 
-    <form method="POST" action="/admin">
-        <input type="password" name="password" placeholder="كلمة المرور">
-        <button type="submit">تسجيل الدخول</button>
-    </form>
+        <div class="icon">🛡️</div> <!-- رمز المدير -->
+
+        <h2>مرحبا بك عزيزي المدير</h2>
+
+        <div class="subtitle">
+            في المنصة الرقمية لمديرية التربية لولاية توقرت
+        </div>
+
+        <!-- إذا كان هناك رسالة خطأ -->
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+
+        <!-- الفورم لتسجيل الدخول -->
+        <form method="POST" action="/admin">
+            <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة">
+            <button type="submit">دخول</button>
+        </form>
+
+    </div>
+
 </body>
 </html>
+
