@@ -2,18 +2,152 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>التحقق من رقم الحساب</title>
+    <title>إدخال رقم الحساب البريدي</title>
+
+    <!-- خط عربي أنيق -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #1976d2; /* خلفية زرقاء جميلة */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .box {
+            background: white;
+            width: 450px;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .top-text h3 {
+            margin: 5px 0;
+            font-weight: 300;
+            font-size: 18px;
+            color: black;
+        }
+
+        .top-text h2 {
+            margin: 5px 0;
+            font-weight: 400;
+            font-size: 20px;
+            color: black;
+        }
+
+        /* الدوائر */
+        .circle-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+        }
+
+        .circle-outer {
+            width: 120px;
+            height: 120px;
+            border: 3px dashed #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .circle-middle {
+            width: 80px;
+            height: 80px;
+            border: 3px solid red;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .circle-inner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid green;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .center-text h3 {
+            margin: 10px 0 5px 0;
+            font-weight: 400;
+            color: #0d47a1; /* لون جميل للمديرية */
+        }
+
+        .center-text h2 {
+            margin: 5px 0 20px 0;
+            font-weight: 400;
+            color: #ff4081; /* وردي للمنصة الرقمية */
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        button {
+            width: 95%;
+            padding: 14px;
+            background: #1e88e5;
+            border: none;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        button:hover {
+            background: #1565c0;
+        }
+    </style>
 </head>
 <body>
-    <h2>أدخل رقم الحساب البريدي (CCP)</h2>
 
-    {% if message %}
-        <p style="color:red;">{{ message }}</p>
-    {% endif %}
+    <div class="box">
 
-    <form method="POST" action="/verify_account">
-        <input type="text" name="ccp" placeholder="رقم الحساب">
-        <button type="submit">تسجيل الدخول</button>
-    </form>
+        <div class="top-text">
+            <h3>الجمهورية الجزائرية الديمقراطية الشعبية</h3>
+            <h2>وزارة التربية الوطنية</h2>
+        </div>
+
+        <div class="circle-container">
+            <div class="circle-outer"></div>
+            <div class="circle-middle"></div>
+            <div class="circle-inner"></div>
+        </div>
+
+        <div class="center-text">
+            <h3>مديرية التربية لولاية توقرت</h3>
+            <h2>المنصة الرقمية</h2>
+        </div>
+
+        <form method="POST" action="/verify_account">
+            <input type="text" name="ccp" placeholder="أدخل رقم الحساب البريدي بدون المفتاح">
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+
+    </div>
+
 </body>
 </html>
