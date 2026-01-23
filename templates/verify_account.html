@@ -20,7 +20,7 @@
 
         .box {
             background: white;
-            width: 450px;
+            width: 480px;
             border-radius: 15px;
             padding: 25px;
             text-align: center;
@@ -35,7 +35,7 @@
         }
 
         .top-text h2 {
-            margin: 5px 0;
+            margin: 5px 0 20px 0;
             font-weight: 400;
             font-size: 20px;
             color: black;
@@ -49,36 +49,49 @@
             margin: 20px auto;
         }
 
+        .circle-outer,
+        .circle-middle,
+        .circle-inner {
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
         .circle-outer {
             width: 120px;
             height: 120px;
             border: 3px dashed #000;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
         .circle-middle {
             width: 80px;
             height: 80px;
             border: 3px solid red;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
 
         .circle-inner {
             width: 50px;
             height: 50px;
             border: 3px solid green;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        }
+
+        /* تأثير hover */
+        .circle-container:hover .circle-outer {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: #1565c0;
+        }
+
+        .circle-container:hover .circle-middle {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: #f44336;
+        }
+
+        .circle-container:hover .circle-inner {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: #4caf50;
         }
 
         .center-text h3 {
@@ -95,23 +108,23 @@
 
         input[type="text"] {
             width: 90%;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 15px;
             border-radius: 6px;
             border: 1px solid #ccc;
-            font-size: 16px;
+            font-size: 18px;
             text-align: center;
             font-weight: 400;
         }
 
         button {
             width: 95%;
-            padding: 14px;
+            padding: 16px; /* أكبر قليلاً */
             background: #1e88e5;
             border: none;
             color: white;
-            font-size: 17px;
-            font-weight: 700;
+            font-size: 19px; /* أكبر */
+            font-weight: 700; /* غليظ */
             border-radius: 6px;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
