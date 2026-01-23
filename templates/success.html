@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>ملف الموظف</title>
+</head>
+<body>
+    <h2>ملف الموظف: {{ employee.first_name }} {{ employee.last_name }}</h2>
+    <table border="1">
+        <tr>
+            <th>الحقل</th>
+            <th>القيمة</th>
+        </tr>
+        <tr><td>Employee ID</td><td>{{ employee.employee_id }}</td></tr>
+        <tr><td>Last Name</td><td>{{ employee.last_name }}</td></tr>
+        <tr><td>First Name</td><td>{{ employee.first_name }}</td></tr>
+        <tr><td>TEL</td><td>{{ employee.TEL }}</td></tr>
+        <tr><td>CCP</td><td>{{ employee.CCP }}</td></tr>
+        <tr><td>Birth Date</td><td>{{ employee.birth_date }}</td></tr>
+    </table>
+
+    <br>
+    <a href="/edit?ccp={{ employee.CCP }}">تعديل المعلومات</a>
+    <a href="#">طباعة الاستمارة</a>
+    <a href="/">خروج</a>
+</body>
+</html>
