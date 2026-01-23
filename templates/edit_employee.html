@@ -2,20 +2,111 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>تعديل بيانات الموظف</title>
+    <title>تحديث بيانات الموظف</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: #1976d2; /* خلفية زرقاء */
+            display: flex;
+            justify-content: center;
+            padding: 30px 0;
+        }
+
+        .form-box {
+            background: white;
+            width: 700px;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #1565c0;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #999;
+            font-size: 16px;
+        }
+
+    </style>
 </head>
 <body>
-    <h2>استمارة تحديث بيانات الموظف: {{ employee.first_name }} {{ employee.last_name }}</h2>
 
-    <form>
-        <label>الاسم الأول:</label>
-        <input type="text" name="first_name" value="{{ employee.first_name }}"><br>
-        <label>اسم العائلة:</label>
-        <input type="text" name="last_name" value="{{ employee.last_name }}"><br>
-        <label>الهاتف:</label>
-        <input type="text" name="TEL" value="{{ employee.TEL }}"><br>
-        <button type="submit">تحديث</button>
-    </form>
+    <div class="form-box">
+        <h2>استمارة تحديث بيانات الموظفين</h2>
+        <h3>البيانات الشخصية للموظف</h3>
+
+        <div class="field">
+            <label>رقم الحساب البريدي</label>
+            <input type="text" value="{{ employee.CCP }}">
+        </div>
+
+        <div class="field">
+            <label>رقم الضمان الإجتماعي NIN</label>
+            <input type="text" value="{{ employee.NIN or '' }}">
+        </div>
+
+        <div class="field">
+            <label>اللقب</label>
+            <input type="text" value="{{ employee.last_name }}">
+        </div>
+
+        <div class="field">
+            <label>الاسم</label>
+            <input type="text" value="{{ employee.first_name }}">
+        </div>
+
+        <div class="field">
+            <label>تاريخ الميلاد</label>
+            <input type="text" value="{{ employee.birth_date }}">
+        </div>
+
+        <div class="field">
+            <label>الرتبة</label>
+            <input type="text" value="{{ employee.rank or '' }}">
+        </div>
+
+        <div class="field">
+            <label>المؤسسة</label>
+            <input type="text" value="{{ employee.institution or '' }}">
+        </div>
+
+        <div class="field">
+            <label>رقم الهاتف</label>
+            <input type="text" value="{{ employee.TEL }}">
+        </div>
+    </div>
+
 </body>
 </html>
-
