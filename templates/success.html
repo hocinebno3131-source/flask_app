@@ -48,6 +48,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 25px;
+            direction: rtl; /* عكس الأعمدة للغة العربية */
         }
 
         table td {
@@ -56,14 +57,14 @@
         }
 
         table td:first-child {
-            width: 40%; /* العمود الأول أصغر */
-            font-weight: 600;
-            color: #333;
+            width: 60%; /* العمود الأول (القيمة) أكبر الآن */
+            color: #000;
         }
 
         table td:last-child {
-            width: 60%; /* العمود الثاني أكبر */
-            color: #000;
+            width: 40%; /* العمود الثاني (اسم الحقل) أصغر */
+            font-weight: 600;
+            color: #333;
         }
 
         .buttons {
@@ -132,36 +133,36 @@
 
         <table>
             <tr>
-                <td>رقم الحساب البريدي</td>
                 <td>{{ employee.CCP }}</td>
+                <td>رقم الحساب البريدي</td>
             </tr>
             <tr>
-                <td>رقم الضمان الإجتماعي NIN</td>
                 <td>{{ employee.NIN or '' }}</td>
+                <td>رقم الضمان الإجتماعي NIN</td>
             </tr>
             <tr>
-                <td>اللقب</td>
                 <td>{{ employee.last_name }}</td>
+                <td>اللقب</td>
             </tr>
             <tr>
-                <td>الاسم</td>
                 <td>{{ employee.first_name }}</td>
+                <td>الاسم</td>
             </tr>
             <tr>
-                <td>تاريخ الميلاد</td>
                 <td>{{ employee.birth_date }}</td>
+                <td>تاريخ الميلاد</td>
             </tr>
             <tr>
-                <td>الرتبة</td>
                 <td>{{ employee.rank or '' }}</td>
+                <td>الرتبة</td>
             </tr>
             <tr>
-                <td>المؤسسة</td>
                 <td>{{ employee.institution or '' }}</td>
+                <td>المؤسسة</td>
             </tr>
             <tr>
-                <td>رقم الهاتف</td>
                 <td>{{ employee.TEL }}</td>
+                <td>رقم الهاتف</td>
             </tr>
         </table>
 
