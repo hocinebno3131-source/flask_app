@@ -1,1 +1,21 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تعديل بيانات الموظف</title>
+</head>
+<body>
+    <h2>استمارة تحديث بيانات الموظف: {{ employee.first_name }} {{ employee.last_name }}</h2>
+
+    <form>
+        <label>الاسم الأول:</label>
+        <input type="text" name="first_name" value="{{ employee.first_name }}"><br>
+        <label>اسم العائلة:</label>
+        <input type="text" name="last_name" value="{{ employee.last_name }}"><br>
+        <label>الهاتف:</label>
+        <input type="text" name="TEL" value="{{ employee.TEL }}"><br>
+        <button type="submit">تحديث</button>
+    </form>
+</body>
+</html>
 
