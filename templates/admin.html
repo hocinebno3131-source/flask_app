@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول للإدمن</title>
+</head>
+<body>
+    <h2>أدخل كلمة المرور للإدمن</h2>
+
+    {% if message %}
+        <p style="color:red;">{{ message }}</p>
+    {% endif %}
+
+    <form method="POST" action="/admin">
+        <input type="password" name="password" placeholder="كلمة المرور">
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+</body>
+</html>
