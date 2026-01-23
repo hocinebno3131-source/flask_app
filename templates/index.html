@@ -1,62 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8" />
-    <title>تسجيل الدخول</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial;
-        }
-        .card {
-            background: white;
-            width: 350px;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-        }
-        input {
-            width: 90%;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 18px;
-            text-align: center;
-        }
-        button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: #2a5298;
-            color: white;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 95%;
-        }
-        .error {
-            color: red;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>الصفحة الرئيسية</title>
 </head>
 <body>
-<div class="card">
-    <h3>مديرية التربية لولاية توقرت - المنصة الرقمية</h3>
-    <form method="POST">
-        <input type="text" name="postal_id" placeholder="أدخل رقم الحساب البريدي بدون المفتاح" required />
-        <button type="submit">تسجيل الدخول</button>
-    </form>
-    {% if message %}
-        <div class="error">{{ message }}</div>
-    {% endif %}
-</div>
+    <h1>مرحبا بك في تطبيق الموظفين</h1>
+    <a href="/admin">تسجيل الدخول للإدمن</a>
 </body>
 </html>
-
