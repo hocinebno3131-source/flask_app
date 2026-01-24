@@ -46,16 +46,6 @@
             margin-bottom: 25px;
         }
 
-        input {
-            width: 90%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            text-align: center; /* توسيط النص */
-        }
-
         button {
             width: 95%;
             padding: 12px;
@@ -63,6 +53,7 @@
             border: none;
             color: white;
             font-size: 17px;
+            font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
@@ -70,10 +61,6 @@
 
         button:hover {
             background: #1565c0;
-        }
-
-        a {
-            text-decoration: none;
         }
     </style>
 </head>
@@ -89,9 +76,8 @@
             في المنصة الرقمية لمديرية التربية لولاية توقرت
         </div>
 
-        <input type="password" placeholder="أدخل كلمة المرور للمتابعة">
-
-        <a href="/admin"><button>دخول</button></a>
+        <!-- الآن الزر يفتح صفحة /admin مباشرة -->
+        <button onclick="window.location.href='/admin'">دخول</button>
 
     </div>
 
