@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>المنصة الرقمية</title>
-
-    <!-- خط عربي احترافي -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
         body {
             margin: 0;
             height: 100vh;
-            background: #1976d2; /* خلفية زرقاء */
+            background: #1976d2;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,58 +25,29 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
 
-        .icon {
-            font-size: 70px;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            margin: 10px 0;
-            font-weight: 700;
-            color: black;
-            font-size: 24px;
-        }
-
-        .subtitle {
-            font-size: 17px;
-            color: #222;
-            margin-bottom: 25px;
-        }
-
+        .icon { font-size: 70px; margin-bottom: 10px; }
+        h2 { margin: 10px 0; font-weight: 700; color: black; font-size: 24px; }
+        .subtitle { font-size: 17px; color: #222; margin-bottom: 25px; }
         button {
-            width: 95%;
-            padding: 12px;
-            background: #1e88e5;
-            border: none;
-            color: white;
-            font-size: 17px;
-            font-weight: 700;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Cairo', sans-serif;
+            width: 95%; padding: 12px; background: #1e88e5; border: none;
+            color: white; font-size: 17px; font-weight: 700; border-radius: 6px;
+            cursor: pointer; font-family: 'Cairo', sans-serif;
         }
-
-        button:hover {
-            background: #1565c0;
-        }
+        button:hover { background: #1565c0; }
     </style>
 </head>
 <body>
 
-    <div class="box">
+<div class="box">
+    <div class="icon">🛡️</div>
+    <h2>مرحبا بك عزيزي المدير</h2>
+    <div class="subtitle">في المنصة الرقمية لمديرية التربية لولاية توقرت</div>
 
-        <div class="icon">🛡️</div> <!-- رمز المدير المختار -->
-
-        <h2>مرحبا بك عزيزي المدير</h2>
-
-        <div class="subtitle">
-            في المنصة الرقمية لمديرية التربية لولاية توقرت
-        </div>
-
-        <!-- الآن الزر يفتح صفحة /admin مباشرة -->
-        <button onclick="window.location.href='/admin'">دخول</button>
-
-    </div>
+    <!-- الفورم الآن يرسل GET مباشرة إلى /admin -->
+    <form action="/admin" method="GET">
+        <button type="submit">دخول</button>
+    </form>
+</div>
 
 </body>
 </html>
