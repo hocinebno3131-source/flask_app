@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
 import csv
 import os
 
@@ -13,7 +13,7 @@ def index():
     if request.method == 'POST':
         password = request.form['password']
         if password == "de@tggt":
-            # قراءة employees.csv لعرض صفحة verify_account
+            # فتح صفحة التحقق بعد تسجيل الدخول
             return render_template('verify_account.html')
         else:
             message = "كلمة المرور غير صحيحة."
@@ -23,9 +23,9 @@ def index():
 # منع الوصول المباشر إلى /admin
 # -------------------------------
 @app.route('/admin')
-def admin_redirect():
-    # يمكن التحويل مباشرة إلى /
-    return redirect('/')
+def admin_block():
+    # 404 نهائي لمنع الدخول
+    abort(404)
 
 # -------------------------------
 # صفحة التحقق من رقم الحساب (CCP)
