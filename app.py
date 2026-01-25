@@ -7,7 +7,7 @@ app = Flask(__name__)
 # -------------------------------
 # صفحة تسجيل الدخول للإدمن
 # -------------------------------
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
     message = ""
     if request.method == 'POST':
@@ -35,6 +35,13 @@ def verify_account():
         return render_template('verify_account.html', message=message)
     message = "رقم الحساب غير صحيح، حاول مرة أخرى."
     return render_template('verify_account.html', message=message)
+
+# -------------------------------
+# الصفحة الرئيسية
+# -------------------------------
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # -------------------------------
 # صفحة تعديل بيانات الموظف
