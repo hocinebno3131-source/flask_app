@@ -36,8 +36,8 @@
         }
 
         .info-header {
-            background: #dcedc8; /* أخضر باهت */
-            color: #33691e; /* أخضر غامق للنص */
+            background: #dcedc8;
+            color: #33691e;
             padding: 8px 12px;
             font-weight: 700;
             margin-bottom: 15px;
@@ -48,11 +48,11 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 25px;
-            direction: rtl; /* للغة العربية */
+            direction: rtl;
         }
 
         table, th, td {
-            border: 1px solid #999; /* خطوط واضحة للجدول */
+            border: 1px solid #999;
         }
 
         table td {
@@ -61,13 +61,13 @@
         }
 
         table td:first-child {
-            width: 40%; /* العمود الأول الآن اسم الحقل */
+            width: 40%;
             font-weight: 600;
             color: #333;
         }
 
         table td:last-child {
-            width: 60%; /* العمود الثاني الآن القيم */
+            width: 60%;
             color: #000;
         }
 
@@ -94,7 +94,6 @@
             margin-left: 8px;
         }
 
-        /* ألوان الأزرار */
         .btn-print {
             background: #000;
         }
@@ -107,7 +106,6 @@
             background: #333;
         }
 
-        /* تأثيرات hover */
         .btn-print:hover {
             background: #222;
             transform: scale(1.05);
@@ -140,41 +138,56 @@
                 <td>رقم الحساب البريدي</td>
                 <td>{{ employee.CCP }}</td>
             </tr>
+
             <tr>
-                <td>رقم الضمان الإجتماعي NIN</td>
+                <td>رقم الضمان الاجتماعي NIN</td>
                 <td>{{ employee.NIN or '' }}</td>
             </tr>
+
             <tr>
                 <td>اللقب</td>
                 <td>{{ employee.last_name }}</td>
             </tr>
+
             <tr>
                 <td>الاسم</td>
                 <td>{{ employee.first_name }}</td>
             </tr>
+
             <tr>
                 <td>تاريخ الميلاد</td>
                 <td>{{ employee.birth_date }}</td>
             </tr>
+
+            <!-- ✅ الرتبة مربوطة بـ poste_travail -->
             <tr>
                 <td>الرتبة</td>
-                <td>{{ employee.rank or '' }}</td>
+                <td>{{ employee.poste_travail or '' }}</td>
             </tr>
+
+            <!-- ✅ المؤسسة مربوطة بـ ecole -->
             <tr>
                 <td>المؤسسة</td>
-                <td>{{ employee.institution or '' }}</td>
+                <td>{{ employee.ecole or '' }}</td>
             </tr>
+
+            <!-- ✅ رقم الهاتف مربوط بـ TEL -->
             <tr>
                 <td>رقم الهاتف</td>
-                <td>{{ employee.TEL }}</td>
+                <td>{{ employee.TEL or '' }}</td>
             </tr>
         </table>
 
         <div class="buttons">
-            <!-- عكس ترتيب الأزرار -->
-            <a href="/admin" class="btn btn-exit">خروج</a>
-            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
-            <a href="#" class="btn btn-print"><i class="fa fa-print"></i> طباعة الاستمارة</a>
+            <a href="/" class="btn btn-exit">خروج</a>
+
+            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
+                <i class="fa fa-pen"></i> تعديل المعلومات
+            </a>
+
+            <a href="#" class="btn btn-print">
+                <i class="fa fa-print"></i> طباعة الاستمارة
+            </a>
         </div>
 
     </div>
