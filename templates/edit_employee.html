@@ -25,22 +25,13 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
 
-        h2, h3 {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
         h2 {
+            text-align: center;
             background: #1565c0;
             color: white;
             padding: 12px;
             border-radius: 6px;
             font-weight: 700;
-        }
-
-        h3 {
-            color: #1565c0;
-            font-weight: 600;
         }
 
         .section-title {
@@ -49,19 +40,7 @@
             margin-bottom: 10px;
             font-size: 18px;
             color: #1565c0;
-            text-align: center;
-            position: relative;
-            padding-bottom: 8px;
-        }
-
-        .section-title::after {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: #1565c0;
-            margin-top: 5px;
-            border-radius: 2px;
+            text-align: center; 
         }
 
         .row {
@@ -74,58 +53,35 @@
             width: 48%;
         }
 
-        .field label {
+        label {
             display: block;
             font-weight: 600;
             margin-bottom: 5px;
-            text-align: right;
         }
 
-        .field input {
+        input {
             width: 100%;
             padding: 8px 10px;
             border-radius: 6px;
             border: 1px solid #999;
             font-size: 16px;
-            text-align: right;
-        }
-
-        .single-field {
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
-        .single-field label {
-            text-align: center;
-        }
-
-        .single-field input {
-            width: 100%;
-            padding: 12px 10px;
-            border-radius: 6px;
-            border: 1px solid #999;
-            font-size: 16px;
-            text-align: right;
         }
 
         .buttons {
+            margin-top: 25px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 10px;
         }
 
-        .btn {
-            padding: 14px 0;
+        button {
+            padding: 14px;
             font-size: 18px;
             font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
             color: white;
             border: none;
-            text-align: center;
-            transition: all 0.3s ease;
-            width: 100%;
         }
 
         .btn-save {
@@ -135,93 +91,80 @@
         .btn-cancel {
             background: #757575;
         }
-
-        .btn:hover {
-            transform: scale(1.02);
-        }
     </style>
+
+    <script>
+        function confirmSave() {
+            return confirm("هل أنت متأكد من حفظ التعديلات؟");
+        }
+    </script>
+
 </head>
 <body>
 
 <div class="form-box">
     <h2>استمارة تحديث بيانات الموظفين</h2>
 
-    <div class="section-title">البيانات الشخصية للموظف</div>
+    <form method="POST" action="/update" onsubmit="return confirmSave();">
 
-    <div class="row">
-        <div class="field">
-            <label>رقم الحساب البريدي</label>
-            <input type="text" value="{{ employee.CCP }}">
+        <input type="hidden" name="CCP" value="{{ employee.CCP }}">
+
+        <div class="section-title">البيانات المهنية</div>
+
+        <div class="row">
+            <div class="field">
+                <label>رقم الضمان الاجتماعي</label>
+                <input type="text" name="NIN" value="{{ employee.NIN or '' }}">
+            </div>
+
+            <div class="field">
+                <label>الوظيفة</label>
+                <input type="text" name="poste_travail" value="{{ employee.poste_travail or '' }}">
+            </div>
         </div>
-        <div class="field">
-            <label>رقم الضمان الاجتماعي NIN</label>
-            <input type="text" value="{{ employee.NIN or '' }}">
+
+        <div class="row">
+            <div class="field">
+                <label>الطور</label>
+                <input type="text" name="categorie" value="{{ employee.categorie or '' }}">
+            </div>
+
+            <div class="field">
+                <label>الدائرة</label>
+                <input type="text" name="daira" value="{{ employee.daira or '' }}">
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="field">
-            <label>اللقب</label>
-            <input type="text" value="{{ employee.last_name }}">
+        <div class="row">
+            <div class="field">
+                <label>البلدية</label>
+                <input type="text" name="commune" value="{{ employee.commune or '' }}">
+            </div>
+
+            <div class="field">
+                <label>مؤسسة العمل</label>
+                <input type="text" name="ecole" value="{{ employee.ecole or '' }}">
+            </div>
         </div>
-        <div class="field">
-            <label>الاسم</label>
-            <input type="text" value="{{ employee.first_name }}">
+
+        <div class="row">
+            <div class="field">
+                <label>رقم الهاتف</label>
+                <input type="text" name="TEL" value="{{ employee.TEL or '' }}">
+            </div>
+
+            <div class="field">
+                <label>رقم التعريف الوطني</label>
+                <input type="text" name="employee_id" value="{{ employee.employee_id or '' }}">
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="field">
-            <label>تاريخ الميلاد</label>
-            <input type="text" value="{{ employee.birth_date }}">
+        <div class="buttons">
+            <button type="submit" class="btn-save">حفظ وتأكيد المعلومات</button>
+            <button type="button" class="btn-cancel" onclick="window.history.back();">إلغاء</button>
         </div>
-        <div class="field">
-            <label>الوظيفة</label>
-            <input type="text" value="{{ employee.poste_travail or '' }}">
-        </div>
-    </div>
 
-    <div class="section-title">البيانات المهنية للموظف</div>
-
-    <div class="single-field">
-        <label>الطور</label>
-        <input type="text" value="{{ employee.categorie or '' }}">
-    </div>
-
-    <div class="row">
-        <div class="field">
-            <label>الدائرة</label>
-            <input type="text" value="{{ employee.daira or '' }}">
-        </div>
-        <div class="field">
-            <label>البلدية</label>
-            <input type="text" value="{{ employee.commune or '' }}">
-        </div>
-    </div>
-
-    <div class="single-field">
-        <label>مؤسسة العمل</label>
-        <input type="text" value="{{ employee.ecole or '' }}">
-    </div>
-
-    <div class="section-title">معلومات الاتصال والهوية</div>
-
-    <div class="row">
-        <div class="field">
-            <label>رقم الهاتف</label>
-            <input type="text" value="{{ employee.TEL }}">
-        </div>
-        <div class="field">
-            <label>رقم التعريف الوطني</label>
-            <input type="text" value="{{ employee.employee_id or '' }}">
-        </div>
-    </div>
-
-    <div class="buttons">
-        <button class="btn btn-save">حفظ وتأكيد المعلومات</button>
-        <button class="btn btn-cancel">إلغاء / خروج</button>
-    </div>
-
+    </form>
 </div>
 
 </body>
