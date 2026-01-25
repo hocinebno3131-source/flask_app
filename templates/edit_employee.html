@@ -10,7 +10,7 @@
         body {
             margin: 0;
             font-family: 'Cairo', sans-serif;
-            background: #1976d2; /* خلفية زرقاء */
+            background: #1976d2;
             display: flex;
             justify-content: center;
             padding: 30px 0;
@@ -49,12 +49,11 @@
             margin-bottom: 10px;
             font-size: 18px;
             color: #1565c0;
-            text-align: center; 
+            text-align: center;
             position: relative;
             padding-bottom: 8px;
         }
 
-        /* الخط الأزرق أسفل كل عنوان */
         .section-title::after {
             content: "";
             display: block;
@@ -97,12 +96,12 @@
         }
 
         .single-field label {
-            text-align: center; 
+            text-align: center;
         }
 
         .single-field input {
             width: 100%;
-            padding: 12px 10px; 
+            padding: 12px 10px;
             border-radius: 6px;
             border: 1px solid #999;
             font-size: 16px;
@@ -140,91 +139,90 @@
         .btn:hover {
             transform: scale(1.02);
         }
-
     </style>
 </head>
 <body>
 
-    <div class="form-box">
-        <h2>استمارة تحديث بيانات الموظفين</h2>
+<div class="form-box">
+    <h2>استمارة تحديث بيانات الموظفين</h2>
 
-        <div class="section-title">البيانات الشخصية للموظف</div>
+    <div class="section-title">البيانات الشخصية للموظف</div>
 
-        <div class="row">
-            <div class="field">
-                <label>رقم الحساب البريدي</label>
-                <input type="text" value="{{ employee.CCP }}">
-            </div>
-            <div class="field">
-                <label>رقم الضمان الاجتماعي NIN</label>
-                <input type="text" value="{{ employee.NIN or '' }}">
-            </div>
+    <div class="row">
+        <div class="field">
+            <label>رقم الحساب البريدي</label>
+            <input type="text" value="{{ employee.CCP }}">
         </div>
-
-        <div class="row">
-            <div class="field">
-                <label>اللقب</label>
-                <input type="text" value="{{ employee.last_name }}">
-            </div>
-            <div class="field">
-                <label>الاسم</label>
-                <input type="text" value="{{ employee.first_name }}">
-            </div>
+        <div class="field">
+            <label>رقم الضمان الاجتماعي NIN</label>
+            <input type="text" value="{{ employee.NIN or '' }}">
         </div>
-
-        <div class="row">
-            <div class="field">
-                <label>تاريخ الميلاد</label>
-                <input type="text" value="{{ employee.birth_date }}">
-            </div>
-            <div class="field">
-                <label>الوظيفة</label>
-                <input type="text" value="{{ employee.rank or '' }}">
-            </div>
-        </div>
-
-        <div class="section-title">البيانات المهنية للموظف</div>
-
-        <div class="single-field">
-            <label>الطور</label>
-            <input type="text" value="">
-        </div>
-
-        <div class="row">
-            <div class="field">
-                <label>الدائرة</label>
-                <input type="text" value="">
-            </div>
-            <div class="field">
-                <label>البلدية</label>
-                <input type="text" value="">
-            </div>
-        </div>
-
-        <div class="single-field">
-            <label>مؤسسة العمل</label>
-            <input type="text" value="">
-        </div>
-
-        <div class="section-title">معلومات الاتصال والهوية</div>
-
-        <div class="row">
-            <div class="field">
-                <label>رقم الهاتف</label>
-                <input type="text" value="{{ employee.TEL }}">
-            </div>
-            <div class="field">
-                <label>رقم التعريف الوطني</label>
-                <input type="text" value="">
-            </div>
-        </div>
-
-        <div class="buttons">
-            <button class="btn btn-save">حفظ وتأكيد المعلومات</button>
-            <button class="btn btn-cancel">إلغاء / خروج</button>
-        </div>
-
     </div>
+
+    <div class="row">
+        <div class="field">
+            <label>اللقب</label>
+            <input type="text" value="{{ employee.last_name }}">
+        </div>
+        <div class="field">
+            <label>الاسم</label>
+            <input type="text" value="{{ employee.first_name }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label>تاريخ الميلاد</label>
+            <input type="text" value="{{ employee.birth_date }}">
+        </div>
+        <div class="field">
+            <label>الوظيفة</label>
+            <input type="text" value="{{ employee.poste_travail or '' }}">
+        </div>
+    </div>
+
+    <div class="section-title">البيانات المهنية للموظف</div>
+
+    <div class="single-field">
+        <label>الطور</label>
+        <input type="text" value="{{ employee.categorie or '' }}">
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label>الدائرة</label>
+            <input type="text" value="{{ employee.daira or '' }}">
+        </div>
+        <div class="field">
+            <label>البلدية</label>
+            <input type="text" value="{{ employee.commune or '' }}">
+        </div>
+    </div>
+
+    <div class="single-field">
+        <label>مؤسسة العمل</label>
+        <input type="text" value="{{ employee.ecole or '' }}">
+    </div>
+
+    <div class="section-title">معلومات الاتصال والهوية</div>
+
+    <div class="row">
+        <div class="field">
+            <label>رقم الهاتف</label>
+            <input type="text" value="{{ employee.TEL }}">
+        </div>
+        <div class="field">
+            <label>رقم التعريف الوطني</label>
+            <input type="text" value="{{ employee.employee_id or '' }}">
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-save">حفظ وتأكيد المعلومات</button>
+        <button class="btn btn-cancel">إلغاء / خروج</button>
+    </div>
+
+</div>
 
 </body>
 </html>
