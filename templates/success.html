@@ -103,9 +103,21 @@
             background: #333;
         }
 
-        .btn-print:hover { background: #222; transform: scale(1.05); }
-        .btn-edit:hover { background: #1565c0; transform: scale(1.05); }
-        .btn-exit:hover { background: #111; transform: scale(1.05); }
+        .btn-print:hover {
+            background: #222;
+            transform: scale(1.05);
+        }
+
+        .btn-edit:hover {
+            background: #1565c0;
+            transform: scale(1.05);
+        }
+
+        .btn-exit:hover {
+            background: #111;
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 <body>
@@ -119,14 +131,38 @@
         </div>
 
         <table>
-            <tr><td>رقم الحساب البريدي</td><td>{{ employee.CCP }}</td></tr>
-            <tr><td>رقم الضمان الإجتماعي NIN</td><td>{{ employee.NIN or '' }}</td></tr>
-            <tr><td>اللقب</td><td>{{ employee.last_name }}</td></tr>
-            <tr><td>الاسم</td><td>{{ employee.first_name }}</td></tr>
-            <tr><td>تاريخ الميلاد</td><td>{{ employee.birth_date }}</td></tr>
-            <tr><td>الرتبة</td><td>{{ employee.rank or '' }}</td></tr>
-            <tr><td>المؤسسة</td><td>{{ employee.institution or '' }}</td></tr>
-            <tr><td>رقم الهاتف</td><td>{{ employee.TEL }}</td></tr>
+            <tr>
+                <td>رقم الحساب البريدي</td>
+                <td>{{ employee.CCP }}</td>
+            </tr>
+            <tr>
+                <td>رقم الضمان الإجتماعي NIN</td>
+                <td>{{ employee.NIN or '' }}</td>
+            </tr>
+            <tr>
+                <td>اللقب</td>
+                <td>{{ employee.last_name }}</td>
+            </tr>
+            <tr>
+                <td>الاسم</td>
+                <td>{{ employee.first_name }}</td>
+            </tr>
+            <tr>
+                <td>تاريخ الميلاد</td>
+                <td>{{ employee.birth_date }}</td>
+            </tr>
+            <tr>
+                <td>الرتبة</td>
+                <td>{{ employee.rank or '' }}</td>
+            </tr>
+            <tr>
+                <td>المؤسسة</td>
+                <td>{{ employee.institution or '' }}</td>
+            </tr>
+            <tr>
+                <td>رقم الهاتف</td>
+                <td>{{ employee.TEL }}</td>
+            </tr>
         </table>
 
         <div class="buttons">
