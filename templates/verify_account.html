@@ -48,13 +48,11 @@
             margin-bottom: 15px;
         }
 
-        /* ===== رسالة الخطأ ===== */
         .error-message {
             color: red;
             margin-bottom: 15px;
         }
 
-        /* ===== الشعار (logo.png) ===== */
         .logo {
             width: 130px;
             margin: 20px auto;
@@ -67,7 +65,6 @@
             transform: scale(1.08);
         }
 
-        /* ===== النموذج ===== */
         input {
             width: 100%;
             padding: 12px;
@@ -103,18 +100,15 @@
         <div class="title-top">الجمهورية الجزائرية الديمقراطية الشعبية</div>
         <div class="title-middle">وزارة التربية الوطنية</div>
 
-        <!-- الشعار -->
         <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
 
         <div class="title-bottom">مديرية التربية لولاية توقرت</div>
         <div class="platform">المنصة الرقمية</div>
 
-        <!-- رسالة الخطأ -->
         {% if message %}
             <div class="error-message">{{ message }}</div>
         {% endif %}
 
-        <!-- نموذج إدخال رقم الحساب -->
         <form method="POST" action="/verify_account">
             <input type="text" name="ccp" placeholder="أدخل رقم الحساب البريدي بدون المفتاح" required>
             <button type="submit">تسجيل الدخول</button>
