@@ -1,111 +1,115 @@
-from flask import Flask, render_template, request, send_file, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, send_file, session, url_for
 import csv
 import os
+from io import StringIO
 
 app = Flask(__name__)
-app.secret_key = "super-secret-key"  # ضروري للجلسات
-
-EMPLOYEE_FILE = "employees.csv"
+app.secret_key = "supersecretkey"  # ضروري لاستخدام session
 
 # -------------------------------
-# صفحة تسجيل الدخول (مدير / أدمن)
+# صفحة تسجيل الدخول للإدمن والمدير
 # -------------------------------
-@app.route('/', methods=['GET', 'POST'])
-def login():
+@app.route('/admin', methods=['GET', 'POST'])
+def admin_login():
     message = ""
     if request.method == 'POST':
-        password = request.form.get('password')
-
+        password = request.form['password']
         if password == "de@tggt":
             session['role'] = 'manager'
             return redirect(url_for('verify_page'))
-
         elif password == "hocine":
             session['role'] = 'admin'
             return redirect(url_for('verify_page'))
-
         else:
-            message = "كلمة المرور غير صحيحة"
-
+            message = "كلمة المرور غير صحيحة."
     return render_template('admin_login.html', message=message)
 
-
 # -------------------------------
-# صفحة إدخال CCP
-# -------------------------------
-@app.route('/verify')
-def verify_page():
-    if 'role' not in session:
-        return redirect(url_for('login'))
-    return render_template('verify_account.html')
-
-
-# -------------------------------
-# التحقق من CCP
+# صفحة إدخال رقم الحساب (CCP)
 # -------------------------------
 @app.route('/verify_account', methods=['POST'])
 def verify_account():
-    if 'role' not in session:
-        return redirect(url_for('login'))
-
     ccp = request.form['ccp']
-
     try:
-        with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
+        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f, delimiter=';')
             for row in reader:
                 if row['CCP'] == ccp:
-                    return render_template(
-                        'success.html',
-                        employee=row,
-                        role=session['role']
-                    )
+                    role = session.get('role', 'manager')
+                    return render_template('success.html', employee=row, role=role)
     except FileNotFoundError:
-        message = "ملف الموظفين غير موجود."
+        message = "ملف الموظفين غير موجود على السيرفر."
         return render_template('verify_account.html', message=message)
-
-    message = "رقم الحساب غير صحيح."
+    message = "رقم الحساب غير صحيح، حاول مرة أخرى."
     return render_template('verify_account.html', message=message)
 
+# -------------------------------
+# صفحة التحقق من رقم الحساب (الواجهة بعد تسجيل الدخول)
+# -------------------------------
+@app.route('/')
+def verify_page():
+    # تظهر نفس صفحة التحقق
+    return render_template('verify_account.html')
+
+# -------------------------------
+# صفحة تعديل بيانات الموظف
+# -------------------------------
+@app.route('/edit', methods=['GET', 'POST'])
+def edit_employee():
+    ccp = request.args.get('ccp')
+    if not ccp:
+        return "CCP غير موجود في الرابط", 400
+
+    try:
+        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+            reader = list(csv.DictReader(f, delimiter=';'))
+            employee = None
+            for row in reader:
+                if row['CCP'] == ccp:
+                    employee = row
+                    break
+            if employee is None:
+                return "الموظف غير موجود", 404
+
+            if request.method == 'POST':
+                # تحديث البيانات حسب الحقول الموجودة في الفورم
+                fields = ['NIN', 'last_name', 'first_name', 'birth_date', 
+                          'poste_travail', 'categorie', 'daira', 'commune', 
+                          'ecole', 'TEL', 'employee_id']
+                for field in fields:
+                    if field in request.form:
+                        employee[field] = request.form[field]
+                
+                # حفظ التغييرات في employees.csv
+                with open('employees.csv', 'w', newline='', encoding='utf-8-sig') as fw:
+                    writer = csv.DictWriter(fw, fieldnames=reader[0].keys(), delimiter=';')
+                    writer.writeheader()
+                    for r in reader:
+                        if r['CCP'] == ccp:
+                            writer.writerow(employee)
+                        else:
+                            writer.writerow(r)
+                
+                return redirect(url_for('verify_account'))
+
+            return render_template('edit_employee.html', employee=employee)
+
+    except FileNotFoundError:
+        return "ملف الموظفين غير موجود على السيرفر.", 500
 
 # -------------------------------
 # تحميل ملف employees.csv (للأدمن فقط)
 # -------------------------------
 @app.route('/download')
 def download_file():
-    if session.get('role') != 'admin':
-        return "غير مصرح لك بالدخول", 403
-
-    return send_file(
-        EMPLOYEE_FILE,
-        as_attachment=True,
-        download_name="employees.csv"
-    )
-
-
-# -------------------------------
-# صفحة تعديل الموظف
-# -------------------------------
-@app.route('/edit')
-def edit_employee():
-    if 'role' not in session:
-        return redirect(url_for('login'))
-
-    ccp = request.args.get('ccp')
-    if not ccp:
-        return "CCP غير موجود", 400
+    role = session.get('role', None)
+    if role != 'admin':
+        return "غير مصرح لك بتحميل الملف", 403
 
     try:
-        with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f, delimiter=';')
-            for row in reader:
-                if row['CCP'] == ccp:
-                    return render_template('edit_employee.html', employee=row)
-    except:
-        return "خطأ في قراءة الملف", 500
-
-    return "الموظف غير موجود", 404
-
+        return send_file('employees.csv', as_attachment=True)
+    except FileNotFoundError:
+        return "ملف الموظفين غير موجود على السيرفر.", 500
 
 # -------------------------------
 # تشغيل التطبيق
