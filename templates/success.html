@@ -7,7 +7,7 @@
     <!-- خط عربي -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- أيقونات صغيرة -->
+    <!-- أيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -73,6 +73,8 @@
 
         .buttons {
             display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             justify-content: space-between;
         }
 
@@ -80,117 +82,99 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 20px;
-            font-size: 16px;
+            padding: 12px 18px;
+            font-size: 15px;
             font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
             color: white;
             text-decoration: none;
             transition: all 0.3s ease;
+            min-width: 150px;
         }
 
         .btn i {
             margin-left: 8px;
         }
 
-        .btn-print {
-            background: #000;
-        }
+        .btn-print { background: #000; }
+        .btn-edit { background: #1e88e5; }
+        .btn-exit { background: #333; }
+        .btn-download { background: #2e7d32; }
 
-        .btn-edit {
-            background: #1e88e5;
-        }
-
-        .btn-exit {
-            background: #333;
-        }
-
-        .btn-print:hover {
-            background: #222;
+        .btn:hover {
             transform: scale(1.05);
+            opacity: 0.9;
         }
-
-        .btn-edit:hover {
-            background: #1565c0;
-            transform: scale(1.05);
-        }
-
-        .btn-exit:hover {
-            background: #111;
-            transform: scale(1.05);
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="box">
+<div class="box">
 
-        <h2 class="title">الملف الشخصي للموظف</h2>
+    <h2 class="title">الملف الشخصي للموظف</h2>
 
-        <div class="info-header">
-            معلومات الموظف مؤكدة مسبقًا
-        </div>
+    <div class="info-header">
+        معلومات الموظف مؤكدة مسبقًا
+    </div>
 
-        <table>
-            <tr>
-                <td>رقم الحساب البريدي</td>
-                <td>{{ employee.CCP }}</td>
-            </tr>
+    <table>
+        <tr>
+            <td>رقم الحساب البريدي</td>
+            <td>{{ employee.CCP }}</td>
+        </tr>
+        <tr>
+            <td>رقم الضمان الإجتماعي NIN</td>
+            <td>{{ employee.NIN or '' }}</td>
+        </tr>
+        <tr>
+            <td>اللقب</td>
+            <td>{{ employee.last_name }}</td>
+        </tr>
+        <tr>
+            <td>الاسم</td>
+            <td>{{ employee.first_name }}</td>
+        </tr>
+        <tr>
+            <td>تاريخ الميلاد</td>
+            <td>{{ employee.birth_date }}</td>
+        </tr>
+        <tr>
+            <td>الرتبة</td>
+            <td>{{ employee.poste_travail or '' }}</td>
+        </tr>
+        <tr>
+            <td>المؤسسة</td>
+            <td>{{ employee.ecole or '' }}</td>
+        </tr>
+        <tr>
+            <td>رقم الهاتف</td>
+            <td>{{ employee.TEL or '' }}</td>
+        </tr>
+    </table>
 
-            <tr>
-                <td>رقم الضمان الاجتماعي NIN</td>
-                <td>{{ employee.NIN or '' }}</td>
-            </tr>
+    <div class="buttons">
 
-            <tr>
-                <td>اللقب</td>
-                <td>{{ employee.last_name }}</td>
-            </tr>
+        <a href="/" class="btn btn-exit">خروج</a>
 
-            <tr>
-                <td>الاسم</td>
-                <td>{{ employee.first_name }}</td>
-            </tr>
+        <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
+            <i class="fa fa-pen"></i> تعديل المعلومات
+        </a>
 
-            <tr>
-                <td>تاريخ الميلاد</td>
-                <td>{{ employee.birth_date }}</td>
-            </tr>
+        <a href="#" onclick="window.print()" class="btn btn-print">
+            <i class="fa fa-print"></i> طباعة
+        </a>
 
-            <!-- ✅ الرتبة مربوطة بـ poste_travail -->
-            <tr>
-                <td>الرتبة</td>
-                <td>{{ employee.poste_travail or '' }}</td>
-            </tr>
-
-            <!-- ✅ المؤسسة مربوطة بـ ecole -->
-            <tr>
-                <td>المؤسسة</td>
-                <td>{{ employee.ecole or '' }}</td>
-            </tr>
-
-            <!-- ✅ رقم الهاتف مربوط بـ TEL -->
-            <tr>
-                <td>رقم الهاتف</td>
-                <td>{{ employee.TEL or '' }}</td>
-            </tr>
-        </table>
-
-        <div class="buttons">
-            <a href="/" class="btn btn-exit">خروج</a>
-
-            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
-                <i class="fa fa-pen"></i> تعديل المعلومات
+        <!-- زر خاص بالأدمن فقط -->
+        {% if role == 'admin' %}
+            <a href="/download" class="btn btn-download">
+                <i class="fa fa-download"></i> تحميل ملف الموظفين (Excel)
             </a>
-
-            <a href="#" class="btn btn-print">
-                <i class="fa fa-print"></i> طباعة الاستمارة
-            </a>
-        </div>
+        {% endif %}
 
     </div>
+
+</div>
 
 </body>
 </html>
