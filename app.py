@@ -1,22 +1,31 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, abort
 import csv
 import os
 
 app = Flask(__name__)
 
 # -------------------------------
-# صفحة تسجيل الدخول للإدمن
+# الصفحة الرئيسية: تسجيل دخول المدير
 # -------------------------------
-@app.route('/admin', methods=['GET', 'POST'])
-def admin_login():
+@app.route('/', methods=['GET', 'POST'])
+def index():
     message = ""
     if request.method == 'POST':
         password = request.form['password']
         if password == "de@tggt":
+            # فتح صفحة التحقق بعد تسجيل الدخول
             return render_template('verify_account.html')
         else:
             message = "كلمة المرور غير صحيحة."
-    return render_template('admin_login.html', message=message)
+    return render_template('index.html', message=message)
+
+# -------------------------------
+# منع الوصول المباشر إلى /admin
+# -------------------------------
+@app.route('/admin')
+def admin_block():
+    # 404 نهائي لمنع الدخول
+    abort(404)
 
 # -------------------------------
 # صفحة التحقق من رقم الحساب (CCP)
@@ -32,16 +41,9 @@ def verify_account():
                     return render_template('success.html', employee=row)
     except FileNotFoundError:
         message = "ملف الموظفين غير موجود على السيرفر."
-        return render_template('verify_account.html', message=message)
+        return render_template('index.html', message=message)
     message = "رقم الحساب غير صحيح، حاول مرة أخرى."
-    return render_template('verify_account.html', message=message)
-
-# -------------------------------
-# الصفحة الرئيسية
-# -------------------------------
-@app.route('/')
-def index():
-    return render_template('index.html')
+    return render_template('index.html', message=message)
 
 # -------------------------------
 # صفحة تعديل بيانات الموظف
