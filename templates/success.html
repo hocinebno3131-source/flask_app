@@ -1,61 +1,41 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>الملف الشخصي للموظف</title>
+from flask import Flask, render_template, request, redirect, url_for
+import csv
+import os
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+app = Flask(__name__)
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Cairo', sans-serif;
-            background: #f2f2f2;
-            padding: 20px;
-        }
+CSV_FILE = 'employees.csv'
+ADMIN_PASSWORD = 'de@tggt'
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 700px;
-            margin: auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
+# الصفحة الرئيسية
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-        h2 {
-            text-align: center;
-            color: #1565c0;
-        }
+# تسجيل دخول المدير
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password == ADMIN_PASSWORD:
+            return redirect(url_for('verify_account'))
+        else:
+            return render_template('admin_login.html', message="كلمة المرور غير صحيحة")
+    return render_template('admin_login.html')
 
-        .row {
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
+# صفحة التحقق من CCP
+@app.route('/verify_account', methods=['GET', 'POST'])
+def verify_account():
+    if request.method == 'POST':
+        ccp = request.form.get('ccp')
+        with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f, delimiter=';')
+            for row in reader:
+                if row['CCP'] == ccp:
+                    return render_template('success.html', employee=row)
+        return render_template('verify_account.html', message="رقم الحساب غير موجود")
+    return render_template('verify_account.html')
 
-        .row span {
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
-<div class="card">
-    <h2>الملف الشخصي للموظف</h2>
-
-    <div class="row"><span>رقم الحساب البريدي (CCP):</span> {{ employee.CCP }}</div>
-    <div class="row"><span>رقم الضمان الاجتماعي (NIN):</span> {{ employee.NIN or '' }}</div>
-    <div class="row"><span>اللقب:</span> {{ employee.last_name }}</div>
-    <div class="row"><span>الاسم:</span> {{ employee.first_name }}</div>
-    <div class="row"><span>تاريخ الميلاد:</span> {{ employee.birth_date }}</div>
-    <div class="row"><span>الوظيفة:</span> {{ employee.poste_travail or '' }}</div>
-    <div class="row"><span>الطور:</span> {{ employee.categorie or '' }}</div>
-    <div class="row"><span>الدائرة:</span> {{ employee.daira or '' }}</div>
-    <div class="row"><span>البلدية:</span> {{ employee.commune or '' }}</div>
-    <div class="row"><span>مؤسسة العمل:</span> {{ employee.ecole or '' }}</div>
-    <div class="row"><span>رقم الهاتف:</span> {{ employee.TEL or '' }}</div>
-    <div class="row"><span>رقم التعريف الوطني:</span> {{ employee.employee_id or '' }}</div>
-</div>
-
-</body>
-</html>
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
