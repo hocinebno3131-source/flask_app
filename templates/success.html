@@ -1,1 +1,190 @@
-<!DOCTYPE html> <html lang="ar"> <head> <meta charset="UTF-8"> <title>ملف الموظف</title> <!-- خط عربي --> <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"> <!-- أيقونات صغيرة --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <style> body { margin: 0; background: #f0f2f5; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; padding-top: 30px; } .box { background: white; width: 700px; padding: 20px 30px; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.2); } h2.title { text-align: center; font-weight: 700; font-size: 24px; margin-bottom: 15px; } .info-header { background: #dcedc8; /* أخضر باهت */ color: #33691e; /* أخضر غامق للنص */ padding: 8px 12px; font-weight: 700; margin-bottom: 15px; border-radius: 6px; } table { width: 100%; border-collapse: collapse; margin-bottom: 25px; direction: rtl; /* للغة العربية */ } table, th, td { border: 1px solid #999; /* خطوط واضحة للجدول */ } table td { padding: 10px 8px; vertical-align: top; } table td:first-child { width: 40%; /* العمود الأول الآن اسم الحقل */ font-weight: 600; color: #333; } table td:last-child { width: 60%; /* العمود الثاني الآن القيم */ color: #000; } .buttons { display: flex; justify-content: space-between; } .btn { display: flex; align-items: center; justify-content: center; padding: 12px 20px; font-size: 16px; font-weight: 700; border-radius: 6px; cursor: pointer; color: white; text-decoration: none; transition: all 0.3s ease; } .btn i { margin-left: 8px; } /* ألوان الأزرار */ .btn-print { background: #000; } .btn-edit { background: #1e88e5; } .btn-exit { background: #333; } /* تأثيرات hover */ .btn-print:hover { background: #222; transform: scale(1.05); } .btn-edit:hover { background: #1565c0; transform: scale(1.05); } .btn-exit:hover { background: #111; transform: scale(1.05); } </style> </head> <body> <div class="box"> <h2 class="title">الملف الشخصي للموظف</h2> <div class="info-header"> معلومات الموظف مؤكدة مسبقًا </div> <table> <tr> <td>رقم الحساب البريدي</td> <td>{{ employee.CCP }}</td> </tr> <tr> <td>رقم الضمان الإجتماعي NIN</td> <td>{{ employee.NIN or '' }}</td> </tr> <tr> <td>اللقب</td> <td>{{ employee.last_name }}</td> </tr> <tr> <td>الاسم</td> <td>{{ employee.first_name }}</td> </tr> <tr> <td>تاريخ الميلاد</td> <td>{{ employee.birth_date }}</td> </tr> <tr> <td>الرتبة</td> <td>{{ employee.rank or '' }}</td> </tr> <tr> <td>المؤسسة</td> <td>{{ employee.institution or '' }}</td> </tr> <tr> <td>رقم الهاتف</td> <td>{{ employee.TEL }}</td> </tr> </table> <div class="buttons"> <!-- عكس ترتيب الأزرار --> <a href="/admin" class="btn btn-exit">خروج</a> <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a> <a href="#" class="btn btn-print"><i class="fa fa-print"></i> طباعة الاستمارة</a> </div> </div> </body> </html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>ملف الموظف</title>
+
+    <!-- خط عربي -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- أيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f0f2f5;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 30px;
+        }
+
+        .box {
+            background: white;
+            width: 700px;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        h2.title {
+            text-align: center;
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-header {
+            background: #dcedc8;
+            color: #33691e;
+            padding: 8px 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            direction: rtl;
+        }
+
+        table, th, td {
+            border: 1px solid #999;
+        }
+
+        table td {
+            padding: 10px 8px;
+            vertical-align: top;
+        }
+
+        table td:first-child {
+            width: 40%;
+            font-weight: 600;
+            color: #333;
+        }
+
+        table td:last-child {
+            width: 60%;
+            color: #000;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn i { margin-left: 8px; }
+
+        .btn-print { background: #000; }
+        .btn-edit  { background: #1e88e5; }
+        .btn-exit  { background: #333; }
+
+        .btn-print:hover { background: #222; transform: scale(1.05); }
+        .btn-edit:hover  { background: #1565c0; transform: scale(1.05); }
+        .btn-exit:hover  { background: #111; transform: scale(1.05); }
+
+        /* إخفاء الأزرار عند الطباعة */
+        @media print {
+            .buttons {
+                display: none;
+            }
+        }
+    </style>
+
+    <script>
+        function printPage() {
+            window.print();
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</head>
+<body>
+
+<div class="box">
+
+    <h2 class="title">الملف الشخصي للموظف</h2>
+
+    <div class="info-header">
+        معلومات الموظف مؤكدة مسبقًا
+    </div>
+
+    <table>
+        <tr>
+            <td>رقم الحساب البريدي</td>
+            <td>{{ employee.CCP }}</td>
+        </tr>
+        <tr>
+            <td>رقم الضمان الإجتماعي NIN</td>
+            <td>{{ employee.NIN or '' }}</td>
+        </tr>
+        <tr>
+            <td>اللقب</td>
+            <td>{{ employee.last_name }}</td>
+        </tr>
+        <tr>
+            <td>الاسم</td>
+            <td>{{ employee.first_name }}</td>
+        </tr>
+        <tr>
+            <td>تاريخ الميلاد</td>
+            <td>{{ employee.birth_date }}</td>
+        </tr>
+        <tr>
+            <td>الرتبة</td>
+            <td>{{ employee.rank or '' }}</td>
+        </tr>
+        <tr>
+            <td>المؤسسة</td>
+            <td>{{ employee.institution or '' }}</td>
+        </tr>
+        <tr>
+            <td>رقم الهاتف</td>
+            <td>{{ employee.TEL }}</td>
+        </tr>
+    </table>
+
+    <div class="buttons">
+
+        <!-- زر الخروج -->
+        <button class="btn btn-exit" onclick="goBack()">
+            خروج
+        </button>
+
+        <!-- زر التعديل (كما كان) -->
+        <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
+            <i class="fa fa-pen"></i> تعديل المعلومات
+        </a>
+
+        <!-- زر الطباعة -->
+        <button class="btn btn-print" onclick="printPage()">
+            <i class="fa fa-print"></i> طباعة الاستمارة
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>
