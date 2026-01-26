@@ -8,7 +8,7 @@
         body {
             margin: 0;
             font-family: 'Cairo', sans-serif;
-            background: #1976d2; 
+            background: #1976d2;
             display: flex;
             justify-content: center;
             padding: 30px 0;
@@ -21,10 +21,17 @@
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
-        h2, h3 { text-align: center; margin-bottom: 15px; }
-        h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-weight: 700; }
-        h3 { color: #1565c0; font-weight: 600; }
-
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        h2 {
+            background: #1565c0;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
         .section-title {
             font-weight: 600;
             margin-top: 25px;
@@ -44,14 +51,43 @@
             margin-top: 5px;
             border-radius: 2px;
         }
-        .row { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .field { width: 48%; }
-        .field label { display: block; font-weight: 600; margin-bottom: 5px; text-align: right; }
-        .field input { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #999; font-size: 16px; text-align: right; }
-        .single-field { margin-bottom: 15px; width: 100%; }
-        .single-field label { text-align: center; }
-        .single-field input { width: 100%; padding: 12px 10px; border-radius: 6px; border: 1px solid #999; font-size: 16px; text-align: right; }
-
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .field {
+            width: 48%;
+        }
+        .field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+        .field input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #999;
+            font-size: 16px;
+            text-align: right;
+        }
+        .single-field {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .single-field label {
+            text-align: center;
+        }
+        .single-field input {
+            width: 100%;
+            padding: 12px 10px;
+            border-radius: 6px;
+            border: 1px solid #999;
+            font-size: 16px;
+            text-align: right;
+        }
         .buttons {
             display: flex;
             flex-direction: column;
@@ -71,7 +107,7 @@
             width: 100%;
         }
         .btn-save { background: #1e88e5; }
-        .btn-cancel { background: #757575; }
+        .btn-cancel { background: #757575; text-decoration: none; display: block; }
         .btn:hover { transform: scale(1.02); }
     </style>
 </head>
@@ -80,15 +116,14 @@
 <div class="form-box">
     <h2>استمارة تحديث بيانات الموظفين</h2>
 
-    <form method="POST" action="/edit">
-        <!-- حقل CCP مخفي لإرساله مع الفورم -->
-        <input type="hidden" name="CCP" value="{{ employee.CCP }}">
-
+    <form method="POST" action="/update_employee">
+        <!-- البيانات الشخصية -->
         <div class="section-title">البيانات الشخصية للموظف</div>
+
         <div class="row">
             <div class="field">
                 <label>رقم الحساب البريدي</label>
-                <input type="text" name="CCP_display" value="{{ employee.CCP }}" disabled>
+                <input type="text" name="CCP" value="{{ employee.CCP }}" readonly>
             </div>
             <div class="field">
                 <label>رقم الضمان الاجتماعي NIN</label>
@@ -114,11 +149,13 @@
             </div>
             <div class="field">
                 <label>الوظيفة</label>
-                <input type="text" name="poste_travail" value="{{ employee.poste_travail or '' }}">
+                <input type="text" name="rank" value="{{ employee.rank or '' }}">
             </div>
         </div>
 
-        <div class="section-title">معلومات الاتصال</div>
+        <!-- معلومات الاتصال -->
+        <div class="section-title">معلومات الاتصال والهوية</div>
+
         <div class="row">
             <div class="field">
                 <label>رقم الهاتف</label>
@@ -126,14 +163,16 @@
             </div>
             <div class="field">
                 <label>المؤسسة</label>
-                <input type="text" name="ecole" value="{{ employee.ecole or '' }}">
+                <input type="text" name="institution" value="{{ employee.institution or '' }}">
             </div>
         </div>
 
+        <!-- أزرار الحفظ والخروج -->
         <div class="buttons">
             <button type="submit" class="btn btn-save">حفظ وتأكيد المعلومات</button>
             <a href="/verify_account?ccp={{ employee.CCP }}" class="btn btn-cancel">إلغاء / خروج</a>
         </div>
+
     </form>
 </div>
 
