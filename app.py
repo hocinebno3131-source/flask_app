@@ -4,6 +4,8 @@ import os
 
 app = Flask(__name__)
 
+CSV_FILE = 'employees.csv'
+
 # -------------------------------
 # الصفحة الرئيسية: تسجيل دخول المدير
 # -------------------------------
@@ -13,7 +15,6 @@ def index():
     if request.method == 'POST':
         password = request.form['password']
         if password == "de@tggt":
-            # فتح صفحة التحقق بعد تسجيل الدخول
             return render_template('verify_account.html')
         else:
             message = "كلمة المرور غير صحيحة."
@@ -24,7 +25,6 @@ def index():
 # -------------------------------
 @app.route('/admin')
 def admin_block():
-    # 404 نهائي لمنع الدخول
     abort(404)
 
 # -------------------------------
@@ -33,8 +33,9 @@ def admin_block():
 @app.route('/verify_account', methods=['POST'])
 def verify_account():
     ccp = request.form['ccp']
+
     try:
-        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+        with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f, delimiter=';')
             for row in reader:
                 if row['CCP'] == ccp:
@@ -42,26 +43,60 @@ def verify_account():
     except FileNotFoundError:
         message = "ملف الموظفين غير موجود على السيرفر."
         return render_template('index.html', message=message)
+
     message = "رقم الحساب غير صحيح، حاول مرة أخرى."
     return render_template('index.html', message=message)
 
 # -------------------------------
-# صفحة تعديل بيانات الموظف
+# صفحة تعديل بيانات الموظف (GET + POST)
 # -------------------------------
-@app.route('/edit')
+@app.route('/edit', methods=['GET', 'POST'])
 def edit_employee():
-    ccp = request.args.get('ccp')
-    if not ccp:
-        return "CCP غير موجود في الرابط", 400
-    try:
-        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+
+    # ---------------- GET : عرض الاستمارة ----------------
+    if request.method == 'GET':
+        ccp = request.args.get('ccp')
+        if not ccp:
+            return "CCP غير موجود في الرابط", 400
+
+        with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f, delimiter=';')
             for row in reader:
                 if row['CCP'] == ccp:
                     return render_template('edit_employee.html', employee=row)
-    except FileNotFoundError:
-        return "ملف الموظفين غير موجود على السيرفر.", 500
-    return "الموظف غير موجود", 404
+
+        return "الموظف غير موجود", 404
+
+    # ---------------- POST : حفظ التعديلات ----------------
+    if request.method == 'POST':
+        updated_ccp = request.form.get('CCP')
+
+        rows = []
+        updated_employee = None
+
+        with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f, delimiter=';')
+            fieldnames = reader.fieldnames
+
+            for row in reader:
+                if row['CCP'] == updated_ccp:
+                    # تحديث القيم
+                    for key in fieldnames:
+                        if key in request.form:
+                            row[key] = request.form.get(key)
+
+                    updated_employee = row
+
+                rows.append(row)
+
+        # إعادة كتابة الملف بعد التعديل
+        with open(CSV_FILE, 'w', newline='', encoding='utf-8-sig') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
+            writer.writeheader()
+            writer.writerows(rows)
+
+        # الرجوع لصفحة ملف الموظف بعد الحفظ
+        return render_template('success.html', employee=updated_employee)
 
 # -------------------------------
 # تشغيل التطبيق
