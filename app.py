@@ -7,10 +7,12 @@ app = Flask(__name__)
 CSV_FILE = 'employees.csv'
 ADMIN_PASSWORD = 'de@tggt'
 
+# الصفحة الرئيسية
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# تسجيل دخول المدير
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == 'POST':
@@ -21,6 +23,7 @@ def admin():
             return render_template('admin_login.html', message="كلمة المرور غير صحيحة")
     return render_template('admin_login.html')
 
+# صفحة التحقق من CCP
 @app.route('/verify_account', methods=['GET', 'POST'])
 def verify_account():
     if request.method == 'POST':
