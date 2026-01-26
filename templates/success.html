@@ -30,8 +30,8 @@
             margin-bottom: 15px;
         }
         .info-header {
-            background: #dcedc8;
-            color: #33691e;
+            background: #dcedc8; /* أخضر باهت */
+            color: #33691e; /* أخضر غامق للنص */
             padding: 8px 12px;
             font-weight: 700;
             margin-bottom: 15px;
@@ -41,7 +41,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 25px;
-            direction: rtl;
+            direction: rtl; /* للغة العربية */
         }
         table, th, td {
             border: 1px solid #999;
@@ -76,26 +76,23 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        .btn i { margin-left: 8px; }
+        .btn i {
+            margin-left: 8px;
+        }
+        /* ألوان الأزرار */
         .btn-print { background: #000; }
         .btn-edit { background: #1e88e5; }
         .btn-exit { background: #333; }
+        /* تأثيرات hover */
         .btn-print:hover { background: #222; transform: scale(1.05); }
         .btn-edit:hover { background: #1565c0; transform: scale(1.05); }
         .btn-exit:hover { background: #111; transform: scale(1.05); }
     </style>
-    <script>
-        function printForm() {
-            window.print();
-        }
-    </script>
 </head>
 <body>
-
 <div class="box">
     <h2 class="title">الملف الشخصي للموظف</h2>
     <div class="info-header">معلومات الموظف مؤكدة مسبقًا</div>
-
     <table>
         <tr>
             <td>رقم الحساب البريدي</td>
@@ -130,18 +127,16 @@
             <td>{{ employee.TEL }}</td>
         </tr>
     </table>
-
     <div class="buttons">
-        <!-- زر الخروج: يعيد للملف الشخصي للموظف نفسه -->
-        <a href="/verify_account?ccp={{ employee.CCP }}" class="btn btn-exit">خروج</a>
-
-        <!-- زر تعديل المعلومات -->
-        <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
-
-        <!-- زر الطباعة -->
-        <a href="javascript:void(0);" onclick="printForm()" class="btn btn-print"><i class="fa fa-print"></i> طباعة الاستمارة</a>
+        <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
+            <i class="fa fa-pen"></i> تعديل المعلومات
+        </a>
+        <a href="#" class="btn btn-print">
+            <i class="fa fa-print"></i> طباعة الاستمارة
+        </a>
+        <!-- زر الخروج الآن كرابط GET مباشر إلى صفحة التحقق -->
+        <a href="/verify_account" class="btn btn-exit">خروج</a>
     </div>
 </div>
-
 </body>
 </html>
