@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>ملف الموظف</title>
 
+    <!-- خط عربي -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- أيقونات صغيرة -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -135,40 +138,56 @@
                 <td>رقم الحساب البريدي</td>
                 <td>{{ employee.CCP }}</td>
             </tr>
+
             <tr>
-                <td>رقم الضمان الإجتماعي NIN</td>
+                <td>رقم الضمان الاجتماعي NIN</td>
                 <td>{{ employee.NIN or '' }}</td>
             </tr>
+
             <tr>
                 <td>اللقب</td>
                 <td>{{ employee.last_name }}</td>
             </tr>
+
             <tr>
                 <td>الاسم</td>
                 <td>{{ employee.first_name }}</td>
             </tr>
+
             <tr>
                 <td>تاريخ الميلاد</td>
                 <td>{{ employee.birth_date }}</td>
             </tr>
+
+            <!-- ✅ الرتبة مربوطة بـ poste_travail -->
             <tr>
                 <td>الرتبة</td>
-                <td>{{ employee.rank or '' }}</td>
+                <td>{{ employee.poste_travail or '' }}</td>
             </tr>
+
+            <!-- ✅ المؤسسة مربوطة بـ ecole -->
             <tr>
                 <td>المؤسسة</td>
-                <td>{{ employee.institution or '' }}</td>
+                <td>{{ employee.ecole or '' }}</td>
             </tr>
+
+            <!-- ✅ رقم الهاتف مربوط بـ TEL -->
             <tr>
                 <td>رقم الهاتف</td>
-                <td>{{ employee.TEL }}</td>
+                <td>{{ employee.TEL or '' }}</td>
             </tr>
         </table>
 
         <div class="buttons">
-            <a href="/admin" class="btn btn-exit">خروج</a>
-            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
-            <a href="#" class="btn btn-print"><i class="fa fa-print"></i> طباعة الاستمارة</a>
+            <a href="/" class="btn btn-exit">خروج</a>
+
+            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
+                <i class="fa fa-pen"></i> تعديل المعلومات
+            </a>
+
+            <a href="#" class="btn btn-print">
+                <i class="fa fa-print"></i> طباعة الاستمارة
+            </a>
         </div>
 
     </div>
