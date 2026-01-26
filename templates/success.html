@@ -1,211 +1,65 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ملف الموظف</title>
-
-    <!-- خط عربي -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- أيقونات صغيرة -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>الملف الشخصي للموظف</title>
     <style>
         body {
-            margin: 0;
-            background: #f0f2f5;
-            font-family: 'Cairo', sans-serif;
-            display: flex;
-            justify-content: center;
-            padding-top: 30px;
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 20px;
         }
 
-        .box {
+        .card {
             background: white;
-            width: 700px;
-            padding: 20px 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: auto;
         }
 
-        h2.title {
+        h2 {
             text-align: center;
-            font-weight: 700;
-            font-size: 24px;
-            margin-bottom: 15px;
         }
 
-        .info-header {
-            background: #dcedc8;
-            color: #33691e;
-            padding: 8px 12px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            border-radius: 6px;
+        .row {
+            margin-bottom: 8px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            direction: rtl;
+        .download-btn {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        table, th, td {
-            border: 1px solid #999;
-        }
-
-        table td {
-            padding: 10px 8px;
-            vertical-align: top;
-        }
-
-        table td:first-child {
-            width: 40%;
-            font-weight: 600;
-            color: #333;
-        }
-
-        table td:last-child {
-            width: 60%;
-            color: #000;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 6px;
-            cursor: pointer;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn i {
-            margin-left: 8px;
-        }
-
-        .btn-print {
-            background: #000;
-        }
-
-        .btn-edit {
+        .download-btn a {
             background: #1e88e5;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
         }
 
-        .btn-exit {
-            background: #333;
-        }
-
-        .btn-print:hover {
-            background: #222;
-            transform: scale(1.05);
-        }
-
-        .btn-edit:hover {
+        .download-btn a:hover {
             background: #1565c0;
-            transform: scale(1.05);
         }
-
-        .btn-exit:hover {
-            background: #111;
-            transform: scale(1.05);
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="box">
+<div class="card">
+    <h2>الملف الشخصي للموظف</h2>
 
-        <h2 class="title">الملف الشخصي للموظف</h2>
+    <div class="row">الاسم: {{ employee.first_name }}</div>
+    <div class="row">اللقب: {{ employee.last_name }}</div>
+    <div class="row">رقم الهاتف: {{ employee.TEL }}</div>
+    <div class="row">الوظيفة: {{ employee.poste_travail }}</div>
+    <div class="row">المؤسسة: {{ employee.ecole }}</div>
 
-        <div class="info-header">
-            معلومات الموظف مؤكدة مسبقًا
-        </div>
-
-        <table>
-            <tr>
-                <td>رقم الحساب البريدي</td>
-                <td>{{ employee.CCP }}</td>
-            </tr>
-
-            <tr>
-                <td>رقم الضمان الاجتماعي NIN</td>
-                <td>{{ employee.NIN or '' }}</td>
-            </tr>
-
-            <tr>
-                <td>اللقب</td>
-                <td>{{ employee.last_name }}</td>
-            </tr>
-
-            <tr>
-                <td>الاسم</td>
-                <td>{{ employee.first_name }}</td>
-            </tr>
-
-            <tr>
-                <td>تاريخ الميلاد</td>
-                <td>{{ employee.birth_date }}</td>
-            </tr>
-
-            <!-- ✅ الرتبة مربوطة بـ poste_travail -->
-            <tr>
-                <td>الرتبة</td>
-                <td>{{ employee.poste_travail or '' }}</td>
-            </tr>
-
-            <!-- ✅ المؤسسة مربوطة بـ ecole -->
-            <tr>
-                <td>المؤسسة</td>
-                <td>{{ employee.ecole or '' }}</td>
-            </tr>
-
-            <!-- ✅ رقم الهاتف مربوط بـ TEL -->
-            <tr>
-                <td>رقم الهاتف</td>
-                <td>{{ employee.TEL or '' }}</td>
-            </tr>
-        </table>
-
-        <div class="buttons">
-            <a href="/" class="btn btn-exit">خروج</a>
-
-            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit">
-                <i class="fa fa-pen"></i> تعديل المعلومات
-            </a>
-
-            <a href="#" class="btn btn-print">
-                <i class="fa fa-print"></i> طباعة الاستمارة
-            </a>
-        </div>
-
+    <!-- زر تحميل الملف -->
+    <div class="download-btn">
+        <a href="/download_employees">⬇️ تحميل ملف الموظفين (Excel)</a>
     </div>
-<hr>
-
-<div style="margin-top:20px; text-align:center;">
-    <a href="/download_employees">
-        <button style="
-            padding:12px 20px;
-            font-size:16px;
-            background:#2e7d32;
-            color:white;
-            border:none;
-            border-radius:6px;
-            cursor:pointer;">
-            ⬇️ تحميل ملف الموظفين (Excel)
-        </button>
-    </a>
 </div>
 
 </body>
