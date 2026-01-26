@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>المنصة الرقمية</title>
+
+    <!-- خط عربي احترافي -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
             height: 100vh;
-            background: #1976d2;
+            background: #1976d2; /* خلفية زرقاء */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,47 +20,66 @@
 
         .box {
             background: white;
-            width: 400px;
-            padding: 30px;
+            width: 380px;
+            height: 380px;
             border-radius: 12px;
             text-align: center;
+            padding: 25px;
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
 
-        .icon { font-size: 70px; margin-bottom: 10px; }
-        h2 { margin: 10px 0; font-weight: 700; color: black; font-size: 24px; }
-        .subtitle { font-size: 17px; color: #222; margin-bottom: 25px; }
-        input[type="password"] {
-            width: 90%; padding: 14px; margin-bottom: 15px;
-            border-radius: 6px; border: 1px solid #ccc;
-            font-size: 18px; text-align: center; font-weight: 600;
+        .icon {
+            font-size: 70px;
+            margin-bottom: 10px;
         }
+
+        h2 {
+            margin: 10px 0;
+            font-weight: 700;
+            color: black;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            font-size: 17px;
+            color: #222;
+            margin-bottom: 25px;
+        }
+
         button {
-            width: 95%; padding: 14px; background: #1e88e5; border: none;
-            color: white; font-size: 18px; font-weight: 700; border-radius: 6px;
-            cursor: pointer; font-family: 'Cairo', sans-serif;
+            width: 95%;
+            padding: 12px;
+            background: #1e88e5;
+            border: none;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
         }
-        button:hover { background: #1565c0; }
-        .message { color: red; font-size: 14px; margin-bottom: 10px; }
+
+        button:hover {
+            background: #1565c0;
+        }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <div class="icon">🛡️</div>
-    <h2>مرحبا بك عزيزي المدير</h2>
-    <div class="subtitle">في المنصة الرقمية لمديرية التربية لولاية توقرت</div>
+    <div class="box">
 
-    {% if message %}
-        <div class="message">{{ message }}</div>
-    {% endif %}
+        <div class="icon">🛡️</div> <!-- رمز المدير المختار -->
 
-    <!-- الفورم لتسجيل الدخول -->
-    <form method="POST" action="/">
-        <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
-        <button type="submit">دخول</button>
-    </form>
-</div>
+        <h2>مرحبا بك عزيزي المدير</h2>
+
+        <div class="subtitle">
+            في المنصة الرقمية لمديرية التربية لولاية توقرت
+        </div>
+
+        <!-- الآن الزر يفتح صفحة /admin مباشرة -->
+        <button onclick="window.location.href='/admin'">دخول</button>
+
+    </div>
 
 </body>
 </html>
