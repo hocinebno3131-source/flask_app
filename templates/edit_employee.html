@@ -98,28 +98,48 @@
 <div class="form-box">
     <h2>استمارة تحديث بيانات الموظفين</h2>
 
-    <!-- هذه الصفحة كانت للعرض فقط بدون حفظ -->
-
-    <div class="section-title">البيانات المهنية</div>
+    <!-- البيانات الشخصية -->
+    <div class="section-title">البيانات الشخصية للموظف</div>
+    <div class="row">
+        <div class="field">
+            <label>رقم الحساب البريدي</label>
+            <input type="text" value="{{ employee.CCP }}">
+        </div>
+        <div class="field">
+            <label>رقم الضمان الاجتماعي NIN</label>
+            <input type="text" value="{{ employee.NIN or '' }}">
+        </div>
+    </div>
 
     <div class="row">
         <div class="field">
-            <label>رقم الضمان الاجتماعي</label>
-            <input type="text" value="{{ employee.NIN or '' }}">
+            <label>اللقب</label>
+            <input type="text" value="{{ employee.last_name }}">
         </div>
+        <div class="field">
+            <label>الاسم</label>
+            <input type="text" value="{{ employee.first_name }}">
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="field">
+            <label>تاريخ الميلاد</label>
+            <input type="text" value="{{ employee.birth_date }}">
+        </div>
         <div class="field">
             <label>الوظيفة</label>
             <input type="text" value="{{ employee.poste_travail or '' }}">
         </div>
     </div>
 
+    <!-- البيانات المهنية -->
+    <div class="section-title">البيانات المهنية للموظف</div>
     <div class="row">
         <div class="field">
             <label>الطور</label>
             <input type="text" value="{{ employee.categorie or '' }}">
         </div>
-
         <div class="field">
             <label>الدائرة</label>
             <input type="text" value="{{ employee.daira or '' }}">
@@ -131,19 +151,19 @@
             <label>البلدية</label>
             <input type="text" value="{{ employee.commune or '' }}">
         </div>
-
         <div class="field">
             <label>مؤسسة العمل</label>
             <input type="text" value="{{ employee.ecole or '' }}">
         </div>
     </div>
 
+    <!-- معلومات الاتصال والهوية -->
+    <div class="section-title">معلومات الاتصال والهوية</div>
     <div class="row">
         <div class="field">
             <label>رقم الهاتف</label>
-            <input type="text" value="{{ employee.TEL or '' }}">
+            <input type="text" value="{{ employee.TEL }}">
         </div>
-
         <div class="field">
             <label>رقم التعريف الوطني</label>
             <input type="text" value="{{ employee.employee_id or '' }}">
