@@ -126,6 +126,28 @@ def edit_employee_save():
 
     # بعد الحفظ، العودة إلى صفحة الملف الشخصي
     return redirect(url_for('success', ccp=ccp))
+@app.route('/download_employees')
+def download_employees():
+
+    csv_file = 'employees.csv'
+    excel_file = 'employees.xlsx'
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Employees"
+
+    with open(csv_file, newline='', encoding='utf-8-sig') as f:
+        reader = csv.reader(f, delimiter=';')
+        for row in reader:
+            ws.append(row)
+
+    wb.save(excel_file)
+
+    return send_file(
+        excel_file,
+        as_attachment=True,
+        download_name="employees.xlsx"
+    )
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
