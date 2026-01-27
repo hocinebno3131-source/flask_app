@@ -44,7 +44,8 @@
 <div class="form-box">
     <h2>استمارة تحديث بيانات الموظفين</h2>
 
-    <form method="POST" action="/edit_employee_save?ccp={{ employee.CCP }}">
+    <!-- تم تعديل action ليكون متوافق مع app.py -->
+    <form method="POST" action="/update_employee">
         <div class="section-title">البيانات الشخصية للموظف</div>
         <div class="row">
             <div class="field">
