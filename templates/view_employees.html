@@ -2,81 +2,58 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>عرض جميع الموظفين</title>
+    <title>جدول الموظفين النهائي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            margin: 20px;
-            background: #f0f2f5;
-        }
-        h2 {
-            text-align: center;
-            color: #1565c0;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            direction: rtl;
-            text-align: right;
-            background: white;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #999;
-        }
-        th {
-            background: #1e88e5;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background: #e3f2fd;
-        }
-        .btn-print {
-            margin: 15px 0;
-            padding: 10px 20px;
-            background: #1565c0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .btn-print:hover {
-            background: #0d47a1;
-        }
+        body { font-family: 'Cairo', sans-serif; background: #f0f2f5; padding: 20px; }
+        h2 { text-align: center; color: #1565c0; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        th, td { border: 1px solid #999; padding: 8px 12px; text-align: center; }
+        th { background: #1565c0; color: white; }
+        tr:nth-child(even) { background: #e3f2fd; }
+        tr:hover { background: #bbdefb; }
+        .print-btn { margin: 15px 0; display: block; width: 200px; padding: 10px; text-align: center; background: #1e88e5; color: white; border-radius: 6px; text-decoration: none; font-weight: 700; }
+        .print-btn:hover { background: #1565c0; }
     </style>
 </head>
 <body>
+    <h2>جدول الموظفين النهائي بعد التعديلات</h2>
 
-<h2>جدول الموظفين</h2>
+    <a href="#" onclick="window.print();" class="print-btn">🖨️ طباعة الجدول</a>
 
-<button class="btn-print" onclick="window.print()">طباعة الجدول</button>
-
-<table>
-    <thead>
-        <tr>
-            <th>رقم الحساب البريدي</th>
-            <th>اللقب</th>
-            <th>الاسم</th>
-            <th>رقم الهاتف</th>
-            <th>الرتبة</th>
-            <th>المؤسسة</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for emp in employees %}
-        <tr>
-            <td>{{ emp.CCP }}</td>
-            <td>{{ emp.last_name }}</td>
-            <td>{{ emp.first_name }}</td>
-            <td>{{ emp.TEL or '' }}</td>
-            <td>{{ emp.poste_travail or '' }}</td>
-            <td>{{ emp.ecole or '' }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+    <table>
+        <thead>
+            <tr>
+                <th>CCP</th>
+                <th>رقم الهاتف</th>
+                <th>NIN</th>
+                <th>اللقب</th>
+                <th>الاسم</th>
+                <th>تاريخ الميلاد</th>
+                <th>الرتبة</th>
+                <th>الطور</th>
+                <th>الدائرة</th>
+                <th>البلدية</th>
+                <th>مؤسسة العمل</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.CCP }}</td>
+                <td>{{ employee.TEL or '' }}</td>
+                <td>{{ employee.NIN or '' }}</td>
+                <td>{{ employee.last_name }}</td>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.birth_date }}</td>
+                <td>{{ employee.poste_travail or '' }}</td>
+                <td>{{ employee.categorie or '' }}</td>
+                <td>{{ employee.daira or '' }}</td>
+                <td>{{ employee.commune or '' }}</td>
+                <td>{{ employee.ecole or '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
