@@ -38,6 +38,25 @@
         .btn-save { background: #1e88e5; }
         .btn-cancel { background: #757575; }
         .btn:hover { transform: scale(1.02); }
+       
+    .buttons {
+        display: flex;
+        justify-content: center; /* وضعهم في الوسط أفقياً */
+        gap: 15px;              /* مسافة بين الأزرار */
+        margin-top: 30px;       /* نزّلهم قليلاً للأسفل */
+    }
+
+    .btn-save { background: #2e7d32; color: white; }       /* أخضر حامق */
+    .btn-print-final { background: #000000; color: white; } /* أسود حامق */
+    .btn-cancel { background: #555555; color: white; }     /* أسود فاتح */
+
+    /* تأثير بسيط عند المرور بالماوس */
+    .btn-save:hover, .btn-print-final:hover, .btn-cancel:hover {
+        opacity: 0.85;
+        transform: scale(1.03);
+    }
+
+
     </style>
 </head>
 <body>
