@@ -4,59 +4,106 @@
     <meta charset="UTF-8">
     <title>جدول الموظفين النهائي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background: #f0f2f5; padding: 20px; }
-        h2 { text-align: center; color: #1565c0; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
-        th, td { border: 1px solid #999; padding: 8px 12px; text-align: center; }
-        th { background: #1565c0; color: white; }
-        tr:nth-child(even) { background: #e3f2fd; }
-        tr:hover { background: #bbdefb; }
-        .print-btn { margin: 15px 0; display: block; width: 200px; padding: 10px; text-align: center; background: #1e88e5; color: white; border-radius: 6px; text-decoration: none; font-weight: 700; }
-        .print-btn:hover { background: #1565c0; }
-        .btn-download {
-        background: #1b1b1b; /* أسود حامق */
-        color: white;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-bottom: 15px; /* مسافة بين الزر والجدول */
-        transition: all 0.3s ease;
-    }
 
-    .btn-download:hover {
-        opacity: 0.85;
-        transform: scale(1.03);
-    }
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1565c0;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-download {
+            background: #1b1b1b;
+            color: white;
+            padding: 10px 22px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-download:hover {
+            opacity: 0.85;
+            transform: scale(1.03);
+        }
+
+        .print-btn {
+            padding: 10px 22px;
+            text-align: center;
+            background: #1e88e5;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background: #1565c0;
+            transform: scale(1.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background: #1565c0;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #e3f2fd;
+        }
+
+        tr:hover {
+            background: #bbdefb;
+        }
     </style>
 </head>
-<h2>جدول الموظفين النهائي</h2>
 
-    <!-- زر تنزيل ملف Excel -->
-    <button type="button" class="btn btn-download" onclick="window.location.href='/download_employees'">
-        تنزيل الملف بصيغة Excel
-    </button>
+<body>
 
-    <table>
-        <tr>
-            <th>CCP</th>
-            <th>NIN</th>
-            ...
-        </tr>
-        {% for emp in employees %}
-        <tr>
-            <td>{{ emp.CCP }}</td>
-            ...
-        </tr>
-        {% endfor %}
-    </table>
-    <body>
     <h2>جدول الموظفين النهائي بعد التعديلات</h2>
 
-    <a href="#" onclick="window.print();" class="print-btn">🖨️ طباعة الجدول</a>
+    <div class="actions">
+        <!-- زر تنزيل Excel -->
+        <button type="button" class="btn-download"
+            onclick="window.location.href='/download_employees'">
+            تنزيل الملف بصيغة Excel
+        </button>
+
+        <!-- زر الطباعة -->
+        <a href="#" onclick="window.print();" class="print-btn">
+            🖨️ طباعة الجدول
+        </a>
+    </div>
 
     <table>
         <thead>
@@ -92,5 +139,6 @@
             {% endfor %}
         </tbody>
     </table>
+
 </body>
 </html>
