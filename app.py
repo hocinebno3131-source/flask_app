@@ -1,36 +1,9 @@
-from flask import Flask, render_template, request, redirect, abort
 import csv
-import os
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-CSV_FILE = 'employees.csv'
-ADMIN_PASSWORD = 'de@tggt'
-
-# -------------------------------
-# الصفحة الرئيسية: تسجيل دخول المدير
-# -------------------------------
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    message = ""
-    if request.method == 'POST':
-        password = request.form['password']
-        if password == ADMIN_PASSWORD:
-            return render_template('verify_account.html')
-        else:
-            message = "كلمة المرور غير صحيحة."
-    return render_template('index.html', message=message)
-
-# -------------------------------
-# منع الوصول المباشر إلى /admin
-# -------------------------------
-@app.route('/admin')
-def admin_block():
-    abort(404)
-
-# -------------------------------
-# صفحة التحقق من رقم الحساب (CCP)
-# -------------------------------
+# ===== صفحة التحقق من CCP =====
 @app.route('/verify_account', methods=['GET', 'POST'])
 def verify_account():
     ccp = None
@@ -42,7 +15,7 @@ def verify_account():
     if not ccp:
         return render_template('verify_account.html')
 
-    with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
+    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
@@ -50,53 +23,83 @@ def verify_account():
 
     return render_template('verify_account.html', message="رقم الحساب غير موجود")
 
-# -------------------------------
-# صفحة تعديل بيانات الموظف
-# -------------------------------
-@app.route('/edit', methods=['GET', 'POST'])
+
+# ===== صفحة ملف الموظف =====
+@app.route('/success')
+def success():
+    ccp = request.args.get('ccp')
+    if not ccp:
+        return redirect(url_for('verify_account'))
+
+    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            if row['CCP'] == ccp:
+                return render_template('success.html', employee=row)
+
+    return redirect(url_for('verify_account'))
+
+
+# ===== صفحة تعديل بيانات الموظف =====
+@app.route('/edit')
 def edit_employee():
     ccp = request.args.get('ccp')
     if not ccp:
-        return "CCP غير موجود في الرابط", 400
+        return redirect(url_for('verify_account'))
 
-    # إذا تم POST، احفظ التغييرات في employees.csv
-    if request.method == 'POST':
-        new_data = request.form.to_dict()
-        updated = False
-        employees = []
-        with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f, delimiter=';')
-            for row in reader:
-                if row['CCP'] == ccp:
-                    # تحديث كل الحقول الجديدة
-                    for key in new_data:
-                        row[key] = new_data[key]
-                    updated = True
-                employees.append(row)
-        if updated:
-            with open(CSV_FILE, 'w', newline='', encoding='utf-8-sig') as f:
-                writer = csv.DictWriter(f, fieldnames=reader.fieldnames, delimiter=';')
-                writer.writeheader()
-                writer.writerows(employees)
-            return redirect(f"/edit?ccp={ccp}")  # إعادة تحميل الاستمارة بعد الحفظ
-        else:
-            return "الموظف غير موجود", 404
+    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            if row['CCP'] == ccp:
+                return render_template('edit_employee.html', employee=row)
 
-    # GET → عرض الاستمارة
-    try:
-        with open(CSV_FILE, newline='', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f, delimiter=';')
-            for row in reader:
-                if row['CCP'] == ccp:
-                    return render_template('edit_employee.html', employee=row)
-    except FileNotFoundError:
-        return "ملف الموظفين غير موجود على السيرفر.", 500
+    return redirect(url_for('verify_account'))
 
-    return "الموظف غير موجود", 404
 
-# -------------------------------
-# تشغيل التطبيق
-# -------------------------------
+# ===== حفظ التعديلات على employees.csv =====
+@app.route('/update_employee', methods=['POST'])
+def update_employee():
+    ccp = request.form.get('CCP')
+    if not ccp:
+        return redirect(url_for('verify_account'))
+
+    # قراءة جميع الموظفين
+    employees = []
+    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            employees.append(row)
+
+    # تحديث بيانات الموظف المطلوب
+    updated = False
+    for row in employees:
+        if row['CCP'] == ccp:
+            row['NIN'] = request.form.get('NIN', '')
+            row['last_name'] = request.form.get('last_name', '')
+            row['first_name'] = request.form.get('first_name', '')
+            row['birth_date'] = request.form.get('birth_date', '')
+            row['poste_travail'] = request.form.get('poste_travail', '')
+            row['categorie'] = request.form.get('categorie', '')
+            row['daira'] = request.form.get('daira', '')
+            row['commune'] = request.form.get('commune', '')
+            row['ecole'] = request.form.get('ecole', '')
+            row['TEL'] = request.form.get('TEL', '')
+            updated = True
+            break
+
+    if updated:
+        # كتابة التعديلات إلى ملف CSV
+        with open('employees.csv', 'w', newline='', encoding='utf-8-sig') as f:
+            fieldnames = ['employee_id','last_name','first_name','TEL','CCP','birth_date','NIN',
+                          'poste_travail','categorie','daira','commune','ecole']
+            writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
+            writer.writeheader()
+            for row in employees:
+                writer.writerow(row)
+
+    # بعد الحفظ، العودة إلى صفحة ملف الموظف
+    return redirect(url_for('success', ccp=ccp))
+
+
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
