@@ -16,7 +16,27 @@
         .print-btn:hover { background: #1565c0; }
     </style>
 </head>
-<body>
+<h2>جدول الموظفين النهائي</h2>
+
+    <!-- زر تنزيل ملف Excel -->
+    <button type="button" class="btn btn-download" onclick="window.location.href='/download_employees'">
+        تنزيل الملف بصيغة Excel
+    </button>
+
+    <table>
+        <tr>
+            <th>CCP</th>
+            <th>NIN</th>
+            ...
+        </tr>
+        {% for emp in employees %}
+        <tr>
+            <td>{{ emp.CCP }}</td>
+            ...
+        </tr>
+        {% endfor %}
+    </table>
+    <body>
     <h2>جدول الموظفين النهائي بعد التعديلات</h2>
 
     <a href="#" onclick="window.print();" class="print-btn">🖨️ طباعة الجدول</a>
