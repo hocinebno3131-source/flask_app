@@ -102,10 +102,16 @@
         <!-- معلومات الاتصال -->
         <div class="section-title">معلومات الاتصال والهوية</div>
         <div class="row">
-            <div class="field">
-                <label>رقم الهاتف</label>
-                <input type="text" name="TEL" value="{{ employee.TEL }}">
-            </div>
+    <div class="field">
+        <label>رقم الهاتف</label>
+        <input type="text" name="TEL" value="{{ employee.TEL }}">
+    </div>
+    <div class="field">
+        <!-- زر طباعة القائمة النهائية -->
+        <a href="/view_employees" class="btn btn-print">🖨️ طباعة القائمة النهائية</a>
+    </div>
+</div>
+
         </div>
 
         <!-- الأزرار -->
