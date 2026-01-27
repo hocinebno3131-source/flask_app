@@ -1,1 +1,67 @@
-<!DOCTYPE html> <html lang="ar"> <head> <meta charset="UTF-8"> <title>التحقق من رقم الحساب البريدي</title> <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"> <style> body { margin: 0; font-family: 'Cairo', sans-serif; background: linear-gradient(to bottom, #1565c0, #1e88e5); display: flex; justify-content: center; align-items: center; height: 100vh; direction: rtl; } .container { background: white; width: 420px; padding: 30px; border-radius: 14px; text-align: center; box-shadow: 0 0 25px rgba(0,0,0,0.25); } .title-top { font-weight: 700; font-size: 18px; } .title-middle { font-size: 16px; margin-bottom: 5px; } .title-bottom { font-size: 18px; color: #2e7d32; margin-top: 5px; } .platform { color: #e91e63; margin-bottom: 15px; } /* ===== رسالة الخطأ ===== */ .error-message { color: red; margin-bottom: 15px; } /* ===== الشعار (logo.png) ===== */ .logo { width: 130px; margin: 20px auto; display: block; filter: drop-shadow(0 5px 6px rgba(0,0,0,0.25)); transition: transform 0.3s ease; } .logo:hover { transform: scale(1.08); } /* ===== النموذج ===== */ input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #aaa; font-size: 16px; text-align: center; margin-bottom: 15px; } button { width: 100%; background: #1565c0; color: white; border: none; padding: 12px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: 0.3s; } button:hover { background: #0d47a1; } </style> </head> <body> <div class="container"> <div class="title-top">الجمهورية الجزائرية الديمقراطية الشعبية</div> <div class="title-middle">وزارة التربية الوطنية</div> <!-- الشعار --> <img src="{{ url_for('static', filename='logo.png') }}" class="logo"> <div class="title-bottom">مديرية التربية لولاية توقرت</div> <div class="platform">المنصة الرقمية</div> <!-- رسالة الخطأ --> {% if message %} <div class="error-message">{{ message }}</div> {% endif %} <!-- نموذج إدخال رقم الحساب --> <form method="POST" action="/verify_account"> <input type="text" name="ccp" placeholder="أدخل رقم الحساب البريدي بدون المفتاح" required> <button type="submit">تسجيل الدخول</button> </form> </div> </body> </html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>التحقق من رقم الحساب البريدي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom, #1565c0, #1e88e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction: rtl;
+        }
+        .container {
+            background: white;
+            width: 420px;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0,0,0,0.25);
+        }
+        .title-top { font-weight: 700; font-size: 18px; }
+        .title-middle { font-size: 16px; margin-bottom: 5px; }
+        .title-bottom { font-size: 18px; color: #2e7d32; margin-top: 5px; }
+        .platform { color: #e91e63; margin-bottom: 15px; }
+        .error-message { color: red; margin-bottom: 15px; }
+        .logo {
+            width: 130px;
+            margin: 20px auto;
+            display: block;
+            filter: drop-shadow(0 5px 6px rgba(0,0,0,0.25));
+            transition: transform 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.08); }
+        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #aaa; font-size: 16px; text-align: center; margin-bottom: 15px; }
+        button { width: 100%; background: #1565c0; color: white; border: none; padding: 12px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #0d47a1; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="title-top">الجمهورية الجزائرية الديمقراطية الشعبية</div>
+    <div class="title-middle">وزارة التربية الوطنية</div>
+    <!-- الشعار -->
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+    <div class="title-bottom">مديرية التربية لولاية توقرت</div>
+    <div class="platform">المنصة الرقمية</div>
+
+    <!-- رسالة الخطأ -->
+    {% if message %}
+        <div class="error-message">{{ message }}</div>
+    {% endif %}
+
+    <!-- نموذج إدخال رقم الحساب -->
+    <form method="POST" action="/verify_account">
+        <input type="text" name="ccp" placeholder="أدخل رقم الحساب البريدي بدون المفتاح" required>
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+</div>
+
+</body>
+</html>
