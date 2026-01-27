@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>تحديث بيانات الموظف</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
         body {
             margin: 0;
@@ -15,7 +14,6 @@
             padding: 30px 0;
             direction: rtl;
         }
-
         .form-box {
             background: white;
             width: 750px;
@@ -23,141 +21,55 @@
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
+        h2, h3 { text-align: center; margin-bottom: 15px; }
+        h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-weight: 700; }
+        h3 { color: #1565c0; font-weight: 600; }
+        .section-title { font-weight: 600; margin-top: 25px; margin-bottom: 10px; font-size: 18px; color: #1565c0; text-align: center; position: relative; padding-bottom: 8px; }
+        .section-title::after { content: ""; display: block; width: 100%; height: 3px; background-color: #1565c0; margin-top: 5px; border-radius: 2px; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .field { width: 48%; }
+        .field label { display: block; font-weight: 600; margin-bottom: 5px; text-align: right; }
+        .field input { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #999; font-size: 16px; text-align: right; }
+        .single-field { margin-bottom: 15px; width: 100%; }
+        .single-field label { text-align: center; }
+        .single-field input { width: 100%; padding: 12px 10px; border-radius: 6px; border: 1px solid #999; font-size: 16px; text-align: right; }
 
-        h2, h3 {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        h2 {
-            background: #1565c0;
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 700;
-        }
-
-        h3 {
-            color: #1565c0;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-weight: 600;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            font-size: 18px;
-            color: #1565c0;
-            text-align: center;
-            position: relative;
-            padding-bottom: 8px;
-        }
-
-        .section-title::after {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: #1565c0;
-            margin-top: 5px;
-            border-radius: 2px;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .field {
-            width: 48%;
-        }
-
-        .field label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-align: right;
-        }
-
-        .field input {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid #999;
-            font-size: 16px;
-            text-align: right;
-        }
-
-        .single-field {
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
-        .single-field label {
-            text-align: center;
-        }
-
-        .single-field input {
-            width: 100%;
-            padding: 12px 10px;
-            border-radius: 6px;
-            border: 1px solid #999;
-            font-size: 16px;
-            text-align: right;
-        }
-
-        /* ===== تنسيق الأزرار ===== */
         .buttons {
             display: flex;
-            justify-content: center;     /* توسيط الأزرار */
-            gap: 15px;                   /* مسافة بينهم */
-            margin-top: 35px;            /* إنزالهم للأسفل */
+            justify-content: center; /* وضعهم في الوسط أفقياً */
+            gap: 15px;              /* مسافة بين الأزرار */
+            margin-top: 30px;       /* نزّلهم قليلاً للأسفل */
         }
 
         .btn {
-            padding: 14px 26px;
-            font-size: 17px;
+            padding: 14px 0;
+            font-size: 18px;
             font-weight: 700;
-            border-radius: 10px;
+            border-radius: 6px;
             cursor: pointer;
+            color: white;
             border: none;
             text-align: center;
-            transition: all 0.25s ease;
-            font-family: 'Cairo', sans-serif;
-            min-width: 200px;
-            color: white;
-            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 200px;
         }
 
-        /* حفظ */
-        .btn-save {
-            background: #2e7d32;   /* أخضر حامق */
-        }
+        .btn-save { background: #2e7d32; color: white; }       /* أخضر حامق */
+        .btn-print-final { background: #000000; color: white; } /* أسود حامق */
+        .btn-cancel { background: #555555; color: white; }     /* أسود فاتح */
 
-        /* طباعة */
-        .btn-print-final {
-            background: #000000;   /* أسود حامق */
-        }
-
-        /* إلغاء */
-        .btn-cancel {
-            background: #616161;   /* أسود فاتح */
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
+        /* تأثير بسيط عند المرور بالماوس */
+        .btn-save:hover, .btn-print-final:hover, .btn-cancel:hover {
+            opacity: 0.85;
+            transform: scale(1.03);
         }
     </style>
 </head>
-
 <body>
 <div class="form-box">
     <h2>استمارة تحديث بيانات الموظفين</h2>
 
     <form method="POST" action="/edit_employee_save?ccp={{ employee.CCP }}">
-
         <!-- البيانات الشخصية -->
         <div class="section-title">البيانات الشخصية للموظف</div>
         <div class="row">
@@ -170,7 +82,6 @@
                 <input type="text" name="NIN" value="{{ employee.NIN or '' }}">
             </div>
         </div>
-
         <div class="row">
             <div class="field">
                 <label>اللقب</label>
@@ -181,7 +92,6 @@
                 <input type="text" name="first_name" value="{{ employee.first_name }}">
             </div>
         </div>
-
         <div class="row">
             <div class="field">
                 <label>تاريخ الميلاد</label>
@@ -199,7 +109,6 @@
             <label>الطور</label>
             <input type="text" name="categorie" value="{{ employee.categorie or '' }}">
         </div>
-
         <div class="row">
             <div class="field">
                 <label>الدائرة</label>
@@ -210,7 +119,6 @@
                 <input type="text" name="commune" value="{{ employee.commune or '' }}">
             </div>
         </div>
-
         <div class="single-field">
             <label>مؤسسة العمل</label>
             <input type="text" name="ecole" value="{{ employee.ecole or '' }}">
@@ -228,18 +136,23 @@
         <!-- الأزرار -->
         <div class="buttons">
             <button type="submit" class="btn btn-save">حفظ وتأكيد المعلومات</button>
-
-            <button type="button" class="btn btn-print-final"
-                    onclick="window.location.href='/view_employees'">
+            <button type="button" class="btn btn-print-final" onclick="checkPassword()">
                 طباعة القائمة النهائية
             </button>
-
-            <a href="/success?ccp={{ employee.CCP }}" class="btn btn-cancel">
-                إلغاء / خروج
-            </a>
+            <a href="/success?ccp={{ employee.CCP }}" class="btn btn-cancel">إلغاء / خروج</a>
         </div>
-
     </form>
 </div>
+
+<script>
+function checkPassword() {
+    let password = prompt("هذا القفل من صلاحية مديرية التربية\nأدخل كلمة المرور من فضلك:");
+    if (password === "tggt55") {
+        window.location.href = "/view_employees";
+    } else if (password !== null) {
+        alert("كلمة المرور خاطئة");
+    }
+}
+</script>
 </body>
 </html>
