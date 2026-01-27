@@ -1,25 +1,27 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import csv
 import os
 
 app = Flask(__name__)
 
+EMPLOYEE_FILE = 'employees.csv'
+
 # الصفحة الرئيسية
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    message = ""
+    return render_template('index.html')
+
+# صفحة تسجيل دخول الإدمن
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    message = None
     if request.method == 'POST':
-        password = request.form['password']
-        if password == "de@tggt":
+        password = request.form.get('password')
+        if password == 'de@tggt':
             return render_template('verify_account.html')
         else:
-            message = "كلمة المرور غير صحيحة."
-    return render_template('index.html', message=message)
-
-# منع الوصول المباشر إلى /admin
-@app.route('/admin')
-def admin_block():
-    abort(404)
+            message = "كلمة المرور خاطئة"
+    return render_template('admin_login.html', message=message)
 
 # صفحة التحقق من CCP
 @app.route('/verify_account', methods=['GET', 'POST'])
@@ -33,74 +35,85 @@ def verify_account():
     if not ccp:
         return render_template('verify_account.html')
 
-    try:
-        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f, delimiter=';')
-            for row in reader:
-                if row['CCP'] == ccp:
-                    return render_template('success.html', employee=row)
-    except FileNotFoundError:
-        return render_template('index.html', message="ملف الموظفين غير موجود.")
-
-    return render_template('verify_account.html', message="رقم الحساب غير موجود")
-
-# صفحة الملف الشخصي
-@app.route('/success')
-def success():
-    ccp = request.args.get('ccp')
-    if not ccp:
-        return redirect('/')
-    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
                 return render_template('success.html', employee=row)
-    return "الموظف غير موجود", 404
 
-# صفحة تعديل الموظف
+    return render_template('verify_account.html', message="رقم الحساب غير موجود")
+
+# صفحة الملف الشخصي للموظف
+@app.route('/success')
+def success():
+    ccp = request.args.get('ccp')
+    if not ccp:
+        return redirect(url_for('verify_account'))
+
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            if row['CCP'] == ccp:
+                return render_template('success.html', employee=row)
+    return render_template('verify_account.html', message="رقم الحساب غير موجود")
+
+# صفحة تعديل بيانات الموظف
 @app.route('/edit')
 def edit_employee():
     ccp = request.args.get('ccp')
     if not ccp:
-        return "CCP غير موجود", 400
-    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+        return redirect(url_for('verify_account'))
+
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
                 return render_template('edit_employee.html', employee=row)
-    return "الموظف غير موجود", 404
+    return render_template('verify_account.html', message="الموظف غير موجود")
 
-# حفظ التعديلات
+# حفظ التعديلات على employees.csv
 @app.route('/edit_employee_save', methods=['POST'])
 def edit_employee_save():
-    ccp = request.form.get('CCP')
+    ccp = request.args.get('ccp')
     if not ccp:
-        return redirect('/')
+        return redirect(url_for('verify_account'))
 
-    # قراءة جميع الموظفين
+    # قراءة البيانات من الفورم
+    updated_data = {
+        'CCP': request.form.get('CCP', ''),
+        'NIN': request.form.get('NIN', ''),
+        'last_name': request.form.get('last_name', ''),
+        'first_name': request.form.get('first_name', ''),
+        'birth_date': request.form.get('birth_date', ''),
+        'poste_travail': request.form.get('poste_travail', ''),
+        'categorie': request.form.get('categorie', ''),
+        'daira': request.form.get('daira', ''),
+        'commune': request.form.get('commune', ''),
+        'ecole': request.form.get('ecole', ''),
+        'TEL': request.form.get('TEL', '')
+    }
+
+    # قراءة كل الموظفين وتعديل الموظف المستهدف
     employees = []
-    with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
+        fieldnames = reader.fieldnames
         for row in reader:
+            if row['CCP'] == ccp:
+                for key in updated_data:
+                    if key in row:
+                        row[key] = updated_data[key]
             employees.append(row)
 
-    # تحديث بيانات الموظف
-    for row in employees:
-        if row['CCP'] == ccp:
-            for field in ['NIN','last_name','first_name','birth_date','poste_travail',
-                          'categorie','daira','commune','ecole','TEL']:
-                row[field] = request.form.get(field, '')
-            break
-
-    # إعادة كتابة الملف
-    with open('employees.csv', 'w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f, fieldnames=employees[0].keys(), delimiter=';')
+    # كتابة البيانات المحدثة مرة أخرى في الملف
+    with open(EMPLOYEE_FILE, 'w', newline='', encoding='utf-8-sig') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
         writer.writeheader()
         writer.writerows(employees)
 
-    return redirect(f"/success?ccp={ccp}")
+    # بعد الحفظ، العودة إلى صفحة الملف الشخصي
+    return redirect(url_for('success', ccp=ccp))
 
-# تشغيل التطبيق
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
