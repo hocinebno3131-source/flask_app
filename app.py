@@ -5,6 +5,19 @@ import os
 app = Flask(__name__)
 
 EMPLOYEE_FILE = 'employees.csv'
+# صفحة عرض جميع الموظفين بعد التعديل
+@app.route('/view_employees')
+def view_employees():
+    employees = []
+    try:
+        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f, delimiter=';')
+            for row in reader:
+                employees.append(row)
+    except FileNotFoundError:
+        return "ملف الموظفين غير موجود على السيرفر.", 500
+
+    return render_template('view_employees.html', employees=employees)
 
 # الصفحة الرئيسية
 @app.route('/')
