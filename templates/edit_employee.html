@@ -102,14 +102,13 @@ h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-
 .modal-content .ok-btn { background: #2e7d32; color: white; }
 .modal-content .cancel-btn { background: #555555; color: white; }
 .modal-content .ok-btn:hover, .modal-content .cancel-btn:hover { opacity: 0.85; transform: scale(1.03); }
-
 </style>
 </head>
 <body>
 <div class="form-box">
 <h2>استمارة تحديث بيانات الموظفين</h2>
 
-<form method="POST" action="/edit_employee_save?ccp={{ employee.CCP }}">
+<form method="POST" action="/edit_employee_save?ccp={{ employee.CCP }}&role={{ role }}">
     <!-- البيانات الشخصية -->
     <div class="section-title">البيانات الشخصية للموظف</div>
     <div class="row">
@@ -176,12 +175,10 @@ h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-
     <!-- الأزرار -->
     <div class="buttons">
         <button type="submit" class="btn btn-save">حفظ وتأكيد المعلومات</button>
-
-        {% if role == "admin" %}
+        {% if role == 'admin' %}
         <button type="button" class="btn btn-print-final" onclick="showModal()">طباعة القائمة النهائية</button>
         {% endif %}
-
-        <a href="/success?ccp={{ employee.CCP }}" class="btn btn-cancel">إلغاء / خروج</a>
+        <a href="/success?ccp={{ employee.CCP }}&role={{ role }}" class="btn btn-cancel">إلغاء / خروج</a>
     </div>
 </form>
 </div>
