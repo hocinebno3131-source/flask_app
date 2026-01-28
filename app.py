@@ -34,7 +34,7 @@ def admin():
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
 # صفحة تسجيل دخول المستخدم
-@app.route('/user', methods=['GET', 'POST'])
+@app.route('/user', methods=['GET', 'POST']) 
 def user():
     message = None
     if request.method == 'POST':
