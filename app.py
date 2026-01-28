@@ -1,30 +1,28 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file
 from openpyxl import Workbook
-import csv
+import csv 
 import os
 
 app = Flask(__name__)
 
 EMPLOYEE_FILE = 'employees.csv'
-
-# =================================
-# عرض جميع الموظفين (الإدمن فقط)
-# =================================
+# صفحة عرض جميع الموظفين بعد التعديل
 @app.route('/view_employees')
 def view_employees():
     employees = []
     try:
-        with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
+        with open('employees.csv', newline='', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f, delimiter=';')
             for row in reader:
                 employees.append(row)
     except FileNotFoundError:
         return "ملف الموظفين غير موجود على السيرفر.", 500
+
     return render_template('view_employees.html', employees=employees)
 
-# =================================
-# تسجيل دخول الإدمن
-# =================================
+
+
+# صفحة تسجيل دخول الإدمن
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     message = None
@@ -36,66 +34,62 @@ def admin():
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
 
-# =================================
-# تسجيل دخول المستخدم العادي
-# =================================
-@app.route('/user', methods=['GET', 'POST'])
-def user_login():
-    message = None
+# صفحة التحقق من CCP
+@app.route('/verify_account', methods=['GET', 'POST'])
+def verify_account():
+    ccp = None
     if request.method == 'POST':
-        password = request.form.get('password')
-        if password == 'de@@55tggt':
-            return redirect(url_for('edit_employee_user'))
-        else:
-            message = "كلمة المرور خاطئة"
-    return render_template('user_login.html', message=message)
+        ccp = request.form.get('ccp')
+    elif request.method == 'GET':
+        ccp = request.args.get('ccp')
 
-# =================================
-# صفحة تعديل بيانات الموظف (الإدمن)
-# =================================
+    if not ccp:
+        return render_template('verify_account.html')
+
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            if row['CCP'] == ccp:
+                return render_template('success.html', employee=row)
+
+    return render_template('verify_account.html', message="رقم الحساب غير موجود")
+
+# صفحة الملف الشخصي للموظف
+@app.route('/success')
+def success():
+    ccp = request.args.get('ccp')
+    if not ccp:
+        return redirect(url_for('verify_account'))
+
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            if row['CCP'] == ccp:
+                return render_template('success.html', employee=row)
+    return render_template('verify_account.html', message="رقم الحساب غير موجود")
+
+# صفحة تعديل بيانات الموظف
 @app.route('/edit')
 def edit_employee():
     ccp = request.args.get('ccp')
     if not ccp:
-        return redirect(url_for('admin'))
+        return redirect(url_for('verify_account'))
+
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
                 return render_template('edit_employee.html', employee=row)
-    return redirect(url_for('admin'))
+    return render_template('verify_account.html', message="الموظف غير موجود")
 
-# =================================
-# صفحة تعديل بيانات الموظف (المستخدم العادي)
-# =================================
-@app.route('/edit_user')
-def edit_employee_user():
-    ccp = request.args.get('ccp')
-    if not ccp:
-        # إذا لم يحدد CCP، نأخذ أول موظف (يمكن تعديله حسب حاجتك)
-        with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f, delimiter=';')
-            first_row = next(reader, None)
-            if first_row:
-                ccp = first_row['CCP']
-            else:
-                return "لا يوجد موظفون في الملف.", 500
-    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f, delimiter=';')
-        for row in reader:
-            if row['CCP'] == ccp:
-                return render_template('edit_employee_user.html', employee=row)
-    return "الموظف غير موجود", 404
-
-# =================================
-# حفظ التعديلات
-# =================================
+# حفظ التعديلات على employees.csv
 @app.route('/edit_employee_save', methods=['POST'])
 def edit_employee_save():
     ccp = request.args.get('ccp')
     if not ccp:
-        return redirect(url_for('admin'))
+        return redirect(url_for('verify_account'))
 
+    # قراءة البيانات من الفورم
     updated_data = {
         'CCP': request.form.get('CCP', ''),
         'NIN': request.form.get('NIN', ''),
@@ -110,6 +104,7 @@ def edit_employee_save():
         'TEL': request.form.get('TEL', '')
     }
 
+    # قراءة كل الموظفين وتعديل الموظف المستهدف
     employees = []
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
@@ -121,18 +116,17 @@ def edit_employee_save():
                         row[key] = updated_data[key]
             employees.append(row)
 
+    # كتابة البيانات المحدثة مرة أخرى في الملف
     with open(EMPLOYEE_FILE, 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
         writer.writeheader()
         writer.writerows(employees)
 
-    return redirect(url_for('edit_employee_user', ccp=ccp))
-
-# =================================
-# تنزيل الموظفين كملف Excel
-# =================================
+    # بعد الحفظ، العودة إلى صفحة الملف الشخصي
+    return redirect(url_for('success', ccp=ccp))
 @app.route('/download_employees')
 def download_employees():
+
     csv_file = 'employees.csv'
     excel_file = 'employees.xlsx'
 
