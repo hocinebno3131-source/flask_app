@@ -54,11 +54,13 @@
     {% endif %}
 
     <!-- الفورم لتسجيل الدخول -->
-    <form method="POST" action="/admin">
-        <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
-        <button type="submit">دخول</button>
-    </form>
+    <form method="POST" action="{{ request.path }}">
+    <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
+    <button type="submit">دخول</button>
+</form>
+
 </div>
 
 </body>
 </html>
+
