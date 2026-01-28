@@ -80,7 +80,7 @@ def success():
     return render_template('verify_account.html', message="رقم الحساب غير موجود")
 
 # صفحة تعديل بيانات الموظف
-@app.route('/edit')
+@app.route('/edit', methods=['GET', 'POST'])
 def edit_employee():
     ccp = request.args.get('ccp')
     if not ccp:
@@ -90,7 +90,7 @@ def edit_employee():
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('edit_employee.html', employee=row)
+           return render_template('edit_employee.html', employee=emp_data, is_admin=True)    
     return render_template('verify_account.html', message="الموظف غير موجود")
 
 # حفظ التعديلات على employees.csv
