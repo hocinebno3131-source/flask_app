@@ -33,10 +33,18 @@ def admin():
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
-# صفحة دخول المستخدم
+# صفحة تسجيل دخول المستخدم
 @app.route('/user', methods=['GET', 'POST'])
 def user():
-    return render_template('verify_account.html') 
+    message = None
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password == 'de@@55tggt':
+            return render_template('verify_account.html')
+        else:
+            message = "كلمة المرور خاطئة"
+    return render_template('admin_login.html', message=message)
+
 # صفحة التحقق من CCP
 @app.route('/verify_account', methods=['GET', 'POST'])
 def verify_account():
