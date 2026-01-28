@@ -6,6 +6,7 @@ import os
 app = Flask(__name__)
 
 EMPLOYEE_FILE = 'employees.csv'
+
 # صفحة عرض جميع الموظفين بعد التعديل
 @app.route('/view_employees')
 def view_employees():
@@ -20,8 +21,6 @@ def view_employees():
 
     return render_template('view_employees.html', employees=employees)
 
-
-
 # صفحة تسجيل دخول الإدمن
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -33,6 +32,7 @@ def admin():
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
+
 # صفحة تسجيل دخول المستخدم
 @app.route('/user', methods=['GET', 'POST']) 
 def user():
@@ -79,7 +79,7 @@ def success():
                 return render_template('success.html', employee=row)
     return render_template('verify_account.html', message="رقم الحساب غير موجود")
 
-# صفحة تعديل بيانات الموظف
+# صفحة تعديل بيانات الموظف (الإدمن)
 @app.route('/edit', methods=['GET', 'POST'])
 def edit_employee():
     ccp = request.args.get('ccp')
@@ -95,7 +95,7 @@ def edit_employee():
 
     return render_template('verify_account.html', message="الموظف غير موجود")
 
-
+# صفحة تعديل بيانات الموظف (المستخدم العادي)
 @app.route('/user/edit', methods=['GET', 'POST'])
 def edit_employee_user():
     ccp = request.args.get('ccp')
@@ -153,9 +153,10 @@ def edit_employee_save():
 
     # بعد الحفظ، العودة إلى صفحة الملف الشخصي
     return redirect(url_for('success', ccp=ccp))
+
+# تنزيل الموظفين كملف Excel
 @app.route('/download_employees')
 def download_employees():
-
     csv_file = 'employees.csv'
     excel_file = 'employees.xlsx'
 
