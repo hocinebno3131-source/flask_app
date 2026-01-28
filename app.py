@@ -20,10 +20,7 @@ def view_employees():
 
     return render_template('view_employees.html', employees=employees)
 
-# الصفحة الرئيسية
-@app.route('/')
-def index():
-    return render_template('index.html')
+
 
 # صفحة تسجيل دخول الإدمن
 @app.route('/admin', methods=['GET', 'POST'])
