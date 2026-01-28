@@ -90,7 +90,25 @@ def edit_employee():
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-           return render_template('edit_employee.html', employee=emp_data, is_admin=True)    
+                emp_data = row
+                return render_template('edit_employee.html', employee=emp_data, is_admin=True)    
+
+    return render_template('verify_account.html', message="الموظف غير موجود")
+
+
+@app.route('/user/edit', methods=['GET', 'POST'])
+def edit_employee_user():
+    ccp = request.args.get('ccp')
+    if not ccp:
+        return redirect(url_for('verify_account'))
+
+    with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            if row['CCP'] == ccp:
+                emp_data = row
+                return render_template('edit_employee.html', employee=emp_data, is_admin=False)  
+
     return render_template('verify_account.html', message="الموظف غير موجود")
 
 # حفظ التعديلات على employees.csv
