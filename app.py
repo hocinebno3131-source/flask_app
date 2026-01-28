@@ -1,19 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, session
+from flask import Flask, render_template, request, redirect, url_for, send_file
 from openpyxl import Workbook
 import csv 
 import os
 
 app = Flask(__name__)
-app.secret_key = "secret_key_123"  # ضروري للجلسات
 
 EMPLOYEE_FILE = 'employees.csv'
 
-# صفحة عرض جميع الموظفين بعد التعديل
+# عرض جميع الموظفين بعد التعديل
 @app.route('/view_employees')
 def view_employees():
-    if session.get("role") != "admin":
-        return "غير مصرح لك بالدخول إلى هذه الصفحة", 403
-
     employees = []
     try:
         with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
@@ -25,28 +21,26 @@ def view_employees():
 
     return render_template('view_employees.html', employees=employees)
 
-# صفحة تسجيل دخول الإدمن
+# تسجيل دخول الإدمن
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     message = None
     if request.method == 'POST':
         password = request.form.get('password')
         if password == 'de@tggt':
-            session['role'] = 'admin'
-            return render_template('verify_account.html')
+            return redirect(url_for('verify_account', role='admin'))
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
 
-# صفحة تسجيل دخول المستخدم العادي
+# تسجيل دخول المستخدم العادي
 @app.route('/user', methods=['GET', 'POST'])
 def user_login():
     message = None
     if request.method == 'POST':
         password = request.form.get('password')
         if password == 'de@@55tggt':
-            session['role'] = 'user'
-            return render_template('verify_account.html')
+            return redirect(url_for('verify_account', role='user'))
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
@@ -54,56 +48,70 @@ def user_login():
 # صفحة التحقق من CCP
 @app.route('/verify_account', methods=['GET', 'POST'])
 def verify_account():
-    ccp = request.form.get('ccp') if request.method == 'POST' else request.args.get('ccp')
+    ccp = request.form.get('ccp') or request.args.get('ccp')
+    role = request.args.get('role', 'admin')  # تحديد الدور
     if not ccp:
-        return render_template('verify_account.html')
+        return render_template('verify_account.html', role=role)
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('success.html', employee=row)
+                return render_template('success.html', employee=row, role=role)
 
-    return render_template('verify_account.html', message="رقم الحساب غير موجود")
+    return render_template('verify_account.html', message="رقم الحساب غير موجود", role=role)
 
 # صفحة الملف الشخصي للموظف
 @app.route('/success')
 def success():
     ccp = request.args.get('ccp')
+    role = request.args.get('role', 'admin')
     if not ccp:
-        return redirect(url_for('verify_account'))
+        return redirect(url_for('verify_account', role=role))
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('success.html', employee=row)
-    return render_template('verify_account.html', message="رقم الحساب غير موجود")
+                return render_template('success.html', employee=row, role=role)
+    return render_template('verify_account.html', message="رقم الحساب غير موجود", role=role)
 
 # صفحة تعديل بيانات الموظف
 @app.route('/edit')
 def edit_employee():
     ccp = request.args.get('ccp')
+    role = request.args.get('role', 'admin')  # الدور لتحديد ظهور زر الطباعة
     if not ccp:
-        return redirect(url_for('verify_account'))
+        return redirect(url_for('verify_account', role=role))
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                role = session.get('role')
                 return render_template('edit_employee.html', employee=row, role=role)
-    return render_template('verify_account.html', message="الموظف غير موجود")
+    return render_template('verify_account.html', message="الموظف غير موجود", role=role)
 
 # حفظ التعديلات على employees.csv
 @app.route('/edit_employee_save', methods=['POST'])
 def edit_employee_save():
     ccp = request.args.get('ccp')
+    role = request.args.get('role', 'admin')
     if not ccp:
-        return redirect(url_for('verify_account'))
+        return redirect(url_for('verify_account', role=role))
 
-    updated_data = {k: request.form.get(k, '') for k in ['CCP','NIN','last_name','first_name','birth_date',
-                                                        'poste_travail','categorie','daira','commune','ecole','TEL']}
+    updated_data = {
+        'CCP': request.form.get('CCP', ''),
+        'NIN': request.form.get('NIN', ''),
+        'last_name': request.form.get('last_name', ''),
+        'first_name': request.form.get('first_name', ''),
+        'birth_date': request.form.get('birth_date', ''),
+        'poste_travail': request.form.get('poste_travail', ''),
+        'categorie': request.form.get('categorie', ''),
+        'daira': request.form.get('daira', ''),
+        'commune': request.form.get('commune', ''),
+        'ecole': request.form.get('ecole', ''),
+        'TEL': request.form.get('TEL', '')
+    }
 
     employees = []
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
@@ -121,14 +129,11 @@ def edit_employee_save():
         writer.writeheader()
         writer.writerows(employees)
 
-    return redirect(url_for('success', ccp=ccp))
+    return redirect(url_for('success', ccp=ccp, role=role))
 
 # تنزيل ملف Excel
 @app.route('/download_employees')
 def download_employees():
-    if session.get("role") != "admin":
-        return "غير مصرح لك بتنزيل الملف", 403
-
     csv_file = EMPLOYEE_FILE
     excel_file = 'employees.xlsx'
 
