@@ -176,7 +176,9 @@ h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-
     <!-- الأزرار -->
     <div class="buttons">
         <button type="submit" class="btn btn-save">حفظ وتأكيد المعلومات</button>
+       {% if request.path == '/admin' %} 
         <button type="button" class="btn btn-print-final" onclick="showModal()">طباعة القائمة النهائية</button>
+       {% endif %}
         <a href="/success?ccp={{ employee.CCP }}" class="btn btn-cancel">إلغاء / خروج</a>
     </div>
 </form>
