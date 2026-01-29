@@ -27,7 +27,8 @@ def admin():
     if request.method == 'POST':
         password = request.form.get('password')
         if password == 'de@tggt':
-            return render_template('verify_account.html', is_admin=True)
+      session['is_admin'] = True  # حفظ نوع المستخدم في الجلسة
+     return render_template('verify_account.html')
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message) 
@@ -38,8 +39,10 @@ def user():
     message = None
     if request.method == 'POST':
         password = request.form.get('password')
-        if password == 'de@@55tggt':
-            return render_template('verify_account.html', is_admin=False)
+       if password == 'de@@55tggt':
+    session['is_admin'] = False  # حفظ نوع المستخدم في الجلسة
+    return render_template('verify_account.html')
+ 
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
