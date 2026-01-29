@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file, session
 from openpyxl import Workbook
 import csv 
 import os
 
 app = Flask(__name__)
-
+app.secret_key = "ma_super_cle_secrete_1234"  # يمكنك وضع أي قيمة طويلة وسرية
 EMPLOYEE_FILE = 'employees.csv'
 
 # صفحة عرض جميع الموظفين
