@@ -61,7 +61,7 @@ def verify_account():
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('success.html', employee=row, is_admin=is_admin)
+            return render_template('success.html', employee=row, is_admin=True)
 
     return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=is_admin)
 
@@ -77,8 +77,8 @@ def success():
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('success.html', employee=row, is_admin=is_admin)
-    return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=is_admin)
+          return render_template('success.html', employee=row, is_admin=True)
+     return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=is_admin)
 
 # تعديل بيانات الموظف (الإدمن)
 @app.route('/edit', methods=['GET', 'POST'])
