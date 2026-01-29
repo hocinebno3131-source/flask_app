@@ -37,8 +37,30 @@
         }
         .logo:hover { transform: scale(1.08); }
         input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #aaa; font-size: 16px; text-align: center; margin-bottom: 15px; }
-        button { width: 100%; background: #1565c0; color: white; border: none; padding: 12px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #0d47a1; }
+
+        /* أزرار نصف الطول */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .btn {
+            width: 48%;
+            padding: 12px 0;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 6px;
+            text-align: center;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-login { background-color: #1565c0; }
+        .btn-login:hover { background-color: #0d47a1; }
+        .btn-exit { background-color: #b71c1c; }
+        .btn-exit:hover { background-color: #7f0000; }
     </style>
 </head>
 <body>
@@ -46,20 +68,20 @@
 <div class="container">
     <div class="title-top">الجمهورية الجزائرية الديمقراطية الشعبية</div>
     <div class="title-middle">وزارة التربية الوطنية</div>
-    <!-- الشعار -->
     <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
     <div class="title-bottom">مديرية التربية لولاية توقرت</div>
     <div class="platform">المنصة الرقمية</div>
 
-    <!-- رسالة الخطأ -->
     {% if message %}
         <div class="error-message">{{ message }}</div>
     {% endif %}
 
-    <!-- نموذج إدخال رقم الحساب -->
     <form method="POST" action="/verify_account">
         <input type="text" name="ccp" placeholder="أدخل رقم الحساب البريدي بدون المفتاح" required>
-        <button type="submit">تسجيل الدخول</button>
+        <div class="buttons">
+            <button type="submit" class="btn btn-login">تسجيل الدخول</button>
+            <button type="button" class="btn btn-exit" onclick="window.location.href='/'">خروج</button>
+        </div>
     </form>
 </div>
 
