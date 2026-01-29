@@ -68,10 +68,10 @@
 
     <div class="buttons">
         <!-- زر تعديل المعلومات -->
-       {% if is_admin %}
-    <a href="/edit?ccp={{ employee.CCP }}&is_admin={{ is_admin }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
+      {% if session.is_admin %}
+    <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
 {% else %}
-    <a href="/user/edit?ccp={{ employee.CCP }}&is_admin={{ is_admin }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
+    <a href="/user/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
 {% endif %}
 
         <!-- زر خروج: يعود لصفحة verify_account لنفس الموظف -->
