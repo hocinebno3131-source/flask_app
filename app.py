@@ -30,7 +30,7 @@ def admin():
             return render_template('verify_account.html', is_admin=True)
         else:
             message = "كلمة المرور خاطئة"
-    return render_template('admin_login.html', message=message)
+    return render_template('admin_login.html', message=message) 
 
 # تسجيل دخول المستخدم العادي
 @app.route('/user', methods=['GET', 'POST']) 
