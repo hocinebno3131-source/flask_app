@@ -66,13 +66,15 @@
         <tr><td>رقم الهاتف</td><td>{{ employee.TEL }}</td></tr>
     </table>
 
+    {% set is_admin = session.get('is_admin', False) %}  <!-- هذا السطر يضمن قراءة الجلسة -->
+
     <div class="buttons">
         <!-- زر تعديل المعلومات -->
-      {% if session.is_admin %}
-    <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
-{% else %}
-    <a href="/user/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
-{% endif %}
+        {% if is_admin %}
+            <a href="/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
+        {% else %}
+            <a href="/user/edit?ccp={{ employee.CCP }}" class="btn btn-edit"><i class="fa fa-pen"></i> تعديل المعلومات</a>
+        {% endif %}
 
         <!-- زر خروج: يعود لصفحة verify_account لنفس الموظف -->
         <a href="/verify_account" class="btn btn-exit">خروج</a>
