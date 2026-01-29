@@ -82,14 +82,19 @@
     {% endif %}
 
     <!-- الفورم لتسجيل الدخول -->
-    <form method="POST" action="/">
-        <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
-       <div class="buttons">
-     <button type="submit" class="btn btn-login">دخول</button>
-     <a href="/" class="btn btn-exit">خروج</a>
-       </div>
-       
-    </form>
+   <form method="POST" action="/">
+    <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
+
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+        <button type="submit" style="width: 120px; padding: 10px 0; background-color: #1565c0; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            دخول
+        </button>
+        <button type="button" onclick="window.location.href='/'" style="width: 120px; padding: 10px 0; background-color: #b71c1c; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            خروج
+        </button>
+    </div>
+</form>
+ 
 </div>
 
 </body>
