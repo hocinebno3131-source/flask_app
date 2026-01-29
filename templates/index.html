@@ -28,47 +28,43 @@
         h2 { margin: 10px 0; font-weight: 700; color: black; font-size: 24px; }
         .subtitle { font-size: 17px; color: #222; margin-bottom: 25px; }
         input[type="password"] {
-            width: 90%; padding: 14px; margin-bottom: 15px;
-            border-radius: 6px; border: 1px solid #ccc;
-            font-size: 18px; text-align: center; font-weight: 600;
+            width: 90%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 18px;
+            text-align: center;
+            font-weight: 600;
         }
-        button {
-            width: 95%; padding: 14px; background: #1e88e5; border: none;
-            color: white; font-size: 18px; font-weight: 700; border-radius: 6px;
-            cursor: pointer; font-family: 'Cairo', sans-serif;
-        }
-        button:hover { background: #1565c0; }
+
         .message { color: red; font-size: 14px; margin-bottom: 10px; }
+
+        /* الأزرار */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            width: 120px;
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 6px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login { background-color: #1565c0; } /* أزرق */
+        .btn-exit { background-color: #b71c1c; }  /* أحمر */
+        .btn:hover { opacity: 0.85; transform: scale(1.03); }
     </style>
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.btn {
-    width: 200px;
-    padding: 14px 0;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 6px;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.btn-login {
-    background: #1565c0; /* أزرق */
-}
-
-.btn-exit {
-    background: #b71c1c; /* أحمر */
-}
-
-    
 </head>
 <body>
 
@@ -82,19 +78,14 @@
     {% endif %}
 
     <!-- الفورم لتسجيل الدخول -->
-   <form method="POST" action="/">
-    <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
+    <form method="POST" action="/">
+        <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
 
-    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-        <button type="submit" style="width: 120px; padding: 10px 0; background-color: #1565c0; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
-            دخول
-        </button>
-        <button type="button" onclick="window.location.href='/'" style="width: 120px; padding: 10px 0; background-color: #b71c1c; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
-            خروج
-        </button>
-    </div>
-</form>
- 
+        <div class="buttons">
+            <button type="submit" class="btn btn-login">دخول</button>
+            <button type="button" class="btn btn-exit" onclick="window.location.href='/'">خروج</button>
+        </div>
+    </form>
 </div>
 
 </body>
