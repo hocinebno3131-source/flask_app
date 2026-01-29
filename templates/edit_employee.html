@@ -106,6 +106,9 @@ h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-
 </style>
 </head>
 <body>
+
+{% set is_admin = session.get('is_admin', False) %}
+
 <div class="form-box">
 <h2>استمارة تحديث بيانات الموظفين</h2>
 
@@ -176,10 +179,9 @@ h2 { background: #1565c0; color: white; padding: 12px; border-radius: 6px; font-
     <!-- الأزرار -->
     <div class="buttons">
         <button type="submit" class="btn btn-save">حفظ وتأكيد المعلومات</button>
-       {% if session.is_admin %}
-    <button type="button" class="btn btn-print-final" onclick="showModal()">طباعة القائمة النهائية</button>
-{% endif %}
- 
+       {% if is_admin %}
+        <button type="button" class="btn btn-print-final" onclick="showModal()">طباعة القائمة النهائية</button>
+       {% endif %}
        <a href="/success?ccp={{ employee.CCP }}" class="btn btn-cancel">إلغاء / خروج</a>
     </div>
 </form>
