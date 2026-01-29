@@ -4,7 +4,7 @@ import csv
 import os
 
 app = Flask(__name__)
-app.secret_key = "ma_super_cle_secrete_1234"  # يمكنك وضع أي قيمة طويلة وسرية
+app.secret_key = "ma_super_cle_secrete_1234"  # أي قيمة طويلة وسرية
 EMPLOYEE_FILE = 'employees.csv'
 
 # صفحة عرض جميع الموظفين
@@ -27,8 +27,8 @@ def admin():
     if request.method == 'POST':
         password = request.form.get('password')
         if password == 'de@tggt':
-      session['is_admin'] = True  # حفظ نوع المستخدم في الجلسة
-     return render_template('verify_account.html')
+            session['is_admin'] = True
+            return render_template('verify_account.html')
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message) 
@@ -39,10 +39,9 @@ def user():
     message = None
     if request.method == 'POST':
         password = request.form.get('password')
-       if password == 'de@@55tggt':
-    session['is_admin'] = False  # حفظ نوع المستخدم في الجلسة
-    return render_template('verify_account.html')
- 
+        if password == 'de@@55tggt':
+            session['is_admin'] = False
+            return render_template('verify_account.html')
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
@@ -51,83 +50,75 @@ def user():
 @app.route('/verify_account', methods=['GET', 'POST'])
 def verify_account():
     ccp = None
-    is_admin = request.args.get('is_admin', 'False') == 'True'
-
     if request.method == 'POST':
         ccp = request.form.get('ccp')
     elif request.method == 'GET':
         ccp = request.args.get('ccp')
 
     if not ccp:
-        return render_template('verify_account.html', is_admin=is_admin)
+        return render_template('verify_account.html', is_admin=session.get('is_admin', False))
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('success.html', employee=row, is_admin=is_admin)
+                return render_template('success.html', employee=row, is_admin=session.get('is_admin', False))
 
-    return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=is_admin)
+    return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=session.get('is_admin', False))
 
 # صفحة الملف الشخصي
 @app.route('/success')
 def success():
     ccp = request.args.get('ccp')
-    is_admin = request.args.get('is_admin', 'False') == 'True'
-
     if not ccp:
-        return redirect(url_for('verify_account', is_admin=is_admin))
+        return redirect(url_for('verify_account'))
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
-                return render_template('success.html', employee=row, is_admin=is_admin)
+                return render_template('success.html', employee=row, is_admin=session.get('is_admin', False))
 
-    return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=is_admin)
+    return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=session.get('is_admin', False))
 
 # تعديل بيانات الموظف (الإدمن)
 @app.route('/edit', methods=['GET', 'POST'])
 def edit_employee():
     ccp = request.args.get('ccp')
-    is_admin = True
     if not ccp:
-        return redirect(url_for('verify_account', is_admin=is_admin))
+        return redirect(url_for('verify_account'))
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
                 emp_data = row
-                return render_template('edit_employee.html', employee=emp_data, is_admin=is_admin)
+                return render_template('edit_employee.html', employee=emp_data, is_admin=True)
 
-    return render_template('verify_account.html', message="الموظف غير موجود", is_admin=is_admin)
+    return render_template('verify_account.html', message="الموظف غير موجود", is_admin=True)
 
 # تعديل بيانات الموظف (المستخدم)
 @app.route('/user/edit', methods=['GET', 'POST'])
 def edit_employee_user():
     ccp = request.args.get('ccp')
-    is_admin = False
     if not ccp:
-        return redirect(url_for('verify_account', is_admin=is_admin))
+        return redirect(url_for('verify_account'))
 
     with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             if row['CCP'] == ccp:
                 emp_data = row
-                return render_template('edit_employee.html', employee=emp_data, is_admin=is_admin)
+                return render_template('edit_employee.html', employee=emp_data, is_admin=False)
 
-    return render_template('verify_account.html', message="الموظف غير موجود", is_admin=is_admin)
+    return render_template('verify_account.html', message="الموظف غير موجود", is_admin=False)
 
 # حفظ التعديلات
 @app.route('/edit_employee_save', methods=['POST'])
 def edit_employee_save():
     ccp = request.args.get('ccp')
-    is_admin = request.args.get('is_admin', 'False') == 'True'
-
     if not ccp:
-        return redirect(url_for('verify_account', is_admin=is_admin))
+        return redirect(url_for('verify_account'))
 
     updated_data = {
         'CCP': request.form.get('CCP', ''),
@@ -159,7 +150,7 @@ def edit_employee_save():
         writer.writeheader()
         writer.writerows(employees)
 
-    return redirect(url_for('success', ccp=ccp, is_admin=is_admin))
+    return redirect(url_for('success', ccp=ccp))
 
 # تنزيل الموظفين كملف Excel
 @app.route('/download_employees')
