@@ -1,66 +1,74 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <title>المنصة الرقمية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background: #1976d2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Cairo', sans-serif;
-        }
+<meta charset="UTF-8">
+<title>المنصة الرقمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #1976d2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cairo', sans-serif;
+}
 
-        .box {
-            background: white;
-            width: 400px;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-        }
+.box {
+    background: white;
+    width: 400px;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
 
-        .icon { font-size: 70px; margin-bottom: 10px; }
-        h2 { margin: 10px 0; font-weight: 700; color: black; font-size: 24px; }
-        .subtitle { font-size: 17px; color: #222; margin-bottom: 25px; }
-        input[type="password"] {
-            width: 90%; padding: 14px; margin-bottom: 15px;
-            border-radius: 6px; border: 1px solid #ccc;
-            font-size: 18px; text-align: center; font-weight: 600;
-        }
+.icon { font-size: 70px; margin-bottom: 10px; }
+h2 { margin: 10px 0; font-weight: 700; color: black; font-size: 24px; }
+.subtitle { font-size: 17px; color: #222; margin-bottom: 25px; }
+input[type="password"] {
+    width: 90%; padding: 14px; margin-bottom: 15px;
+    border-radius: 6px; border: 1px solid #ccc;
+    font-size: 18px; text-align: center; font-weight: 600;
+}
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
+/* نلغي القواعد القديمة للزر */
+button { font-family: 'Cairo', sans-serif; cursor: pointer; }
 
-        .btn {
-            width: 120px;
-            padding: 12px 0;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 6px;
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+/* تعريف الزر الواحد */
+.btn-login {
+    width: 140px;
+    padding: 10px 0;
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+}
+.btn-login:hover { background-color: #0d47a1; }
 
-        .btn-login { background: #1565c0; }  /* أزرق */
-        .btn-exit  { background: #b71c1c; }  /* أحمر */
+.btn-exit {
+    width: 140px;
+    padding: 10px 0;
+    background-color: #b71c1c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+}
+.btn-exit:hover { background-color: #7f0000; }
 
-        .btn-login:hover { background: #1565c0cc; }
-        .btn-exit:hover  { background: #b71c1ccc; }
+.message { color: red; font-size: 14px; margin-bottom: 10px; }
 
-        .message { color: red; font-size: 14px; margin-bottom: 10px; }
-    </style>
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+</style>
 </head>
 <body>
 
@@ -73,12 +81,13 @@
         <div class="message">{{ message }}</div>
     {% endif %}
 
+    <!-- الفورم لتسجيل الدخول -->
     <form method="POST" action="/">
         <input type="password" name="password" placeholder="أدخل كلمة المرور للمتابعة" required>
 
         <div class="buttons">
-            <button type="submit" class="btn btn-login">دخول</button>
-            <button type="button" onclick="window.location.href='/'" class="btn btn-exit">خروج</button>
+            <button type="submit" class="btn-login">دخول</button>
+            <button type="button" class="btn-exit" onclick="window.location.href='/'">خروج</button>
         </div>
     </form>
 </div>
