@@ -26,9 +26,7 @@
             margin-bottom: 20px;
         }
 
-        .btn-download {
-            background: #1b1b1b;
-            color: white;
+        .btn-download, .btn-exit {
             padding: 10px 22px;
             font-size: 16px;
             font-weight: 700;
@@ -36,12 +34,14 @@
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: white;
         }
 
-        .btn-download:hover {
-            opacity: 0.85;
-            transform: scale(1.03);
-        }
+        .btn-download { background: #1b1b1b; }
+        .btn-download:hover { opacity: 0.85; transform: scale(1.03); }
+
+        .btn-exit { background: #b71c1c; }
+        .btn-exit:hover { background: #7f0000; }
 
         .print-btn {
             padding: 10px 22px;
@@ -53,11 +53,7 @@
             font-weight: 700;
             transition: all 0.3s ease;
         }
-
-        .print-btn:hover {
-            background: #1565c0;
-            transform: scale(1.03);
-        }
+        .print-btn:hover { background: #1565c0; transform: scale(1.03); }
 
         table {
             width: 100%;
@@ -73,18 +69,10 @@
             font-size: 14px;
         }
 
-        th {
-            background: #1565c0;
-            color: white;
-        }
+        th { background: #1565c0; color: white; }
 
-        tr:nth-child(even) {
-            background: #e3f2fd;
-        }
-
-        tr:hover {
-            background: #bbdefb;
-        }
+        tr:nth-child(even) { background: #e3f2fd; }
+        tr:hover { background: #bbdefb; }
     </style>
 </head>
 
@@ -103,6 +91,12 @@
         <a href="#" onclick="window.print();" class="print-btn">
             🖨️ طباعة الجدول
         </a>
+
+        <!-- زر الخروج -->
+        <button type="button" class="btn-exit"
+            onclick="window.location.href='/edit'">
+            خروج
+        </button>
     </div>
 
     <table>
