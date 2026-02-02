@@ -4,12 +4,14 @@ import csv
 import os
 
 app = Flask(__name__)
-app.secret_key = "ma_super_cle_secrete_1234"  # أي قيمة طويلة وسرية
+app.secret_key = "ma_super_cle_secrete_1234"
 EMPLOYEE_FILE = 'employees.csv'
 
-# صفحة عرض جميع الموظفين
+# صفحة عرض جميع الموظفين (مع الترتيب)
 @app.route('/view_employees')
 def view_employees():
+    sort_key = request.args.get('sort')
+
     employees = []
     try:
         with open(EMPLOYEE_FILE, newline='', encoding='utf-8-sig') as f:
@@ -18,7 +20,21 @@ def view_employees():
                 employees.append(row)
     except FileNotFoundError:
         return "ملف الموظفين غير موجود على السيرفر.", 500
-    return render_template('view_employees.html', employees=employees)
+
+    # ===== نظام الترتيب =====
+    if sort_key == "ccp":
+        employees.sort(key=lambda x: x.get("CCP", ""))
+    elif sort_key == "last_name":
+        employees.sort(key=lambda x: x.get("last_name", ""))
+    elif sort_key == "ecole":
+        employees.sort(key=lambda x: x.get("ecole", ""))
+
+    return render_template(
+        'view_employees.html',
+        employees=employees,
+        current_sort=sort_key
+    )
+
 
 # تسجيل دخول الإدمن
 @app.route('/admin', methods=['GET', 'POST'])
@@ -33,6 +49,7 @@ def admin():
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message) 
 
+
 # تسجيل دخول المستخدم العادي
 @app.route('/user', methods=['GET', 'POST']) 
 def user():
@@ -45,6 +62,7 @@ def user():
         else:
             message = "كلمة المرور خاطئة"
     return render_template('admin_login.html', message=message)
+
 
 # التحقق من CCP
 @app.route('/verify_account', methods=['GET', 'POST'])
@@ -66,6 +84,7 @@ def verify_account():
 
     return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=session.get('is_admin', False))
 
+
 # صفحة الملف الشخصي
 @app.route('/success')
 def success():
@@ -80,6 +99,7 @@ def success():
                 return render_template('success.html', employee=row, is_admin=session.get('is_admin', False))
 
     return render_template('verify_account.html', message="رقم الحساب غير موجود", is_admin=session.get('is_admin', False))
+
 
 # تعديل بيانات الموظف (الإدمن)
 @app.route('/edit', methods=['GET', 'POST'])
@@ -97,6 +117,7 @@ def edit_employee():
 
     return render_template('verify_account.html', message="الموظف غير موجود", is_admin=True)
 
+
 # تعديل بيانات الموظف (المستخدم)
 @app.route('/user/edit', methods=['GET', 'POST'])
 def edit_employee_user():
@@ -112,6 +133,7 @@ def edit_employee_user():
                 return render_template('edit_employee.html', employee=emp_data, is_admin=False)
 
     return render_template('verify_account.html', message="الموظف غير موجود", is_admin=False)
+
 
 # حفظ التعديلات
 @app.route('/edit_employee_save', methods=['POST'])
@@ -152,6 +174,7 @@ def edit_employee_save():
 
     return redirect(url_for('success', ccp=ccp))
 
+
 # تنزيل الموظفين كملف Excel
 @app.route('/download_employees')
 def download_employees():
@@ -174,6 +197,7 @@ def download_employees():
         as_attachment=True,
         download_name="employees.xlsx"
     )
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
